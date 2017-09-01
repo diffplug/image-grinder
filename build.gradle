@@ -1,0 +1,281 @@
+plugins {
+	// markdown doclet
+	id 'org.jdrupes.mdoclet' version '1.0.3'
+	// github pages
+	id 'org.ajoberstar.git-publish' version '0.3.0'
+	// spotless
+	id 'com.diffplug.gradle.spotless' version '3.5.2'
+	// bintray
+	id 'com.jfrog.bintray' version '1.7.3'
+	// publish
+	id 'com.gradle.plugin-publish' version '0.9.7'
+}
+
+apply plugin: 'java-gradle-plugin'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// misc
+	compile 'com.diffplug.durian:durian-core:1.2.0'
+	compile 'com.diffplug.durian:durian-collect:1.2.0'
+	// image processing
+	compile 'com.jhlabs:filters:2.0.235-1'
+	compile 'com.mortennobel:java-image-scaling:0.8.5'
+	// svg
+	compile 'org.apache.xmlgraphics:batik-rasterizer:1.7'
+	compile 'org.apache.xmlgraphics:batik-codec:1.7'
+	// testing
+	testCompile 'junit:junit:4.12'
+}
+
+test {
+	testLogging {
+		exceptionFormat = 'full'
+	}
+}
+
+apply plugin: 'eclipse'
+eclipse {
+	classpath {
+		downloadSources true
+		downloadJavadoc true
+	}
+	project.file.withXml { provider ->
+		Node filteredResources = provider.asNode().appendNode('filteredResources')
+		Node filter = filteredResources.appendNode('filter')
+		filter.appendNode('id', '1093830624')
+		filter.appendNode('name', '')
+		filter.appendNode('type', '10')
+		Node matcher = filter.appendNode('matcher')
+		matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+		matcher.appendNode('arguments', '1.0-name-matches-false-false-build')
+	}
+}
+// always create fresh projects
+tasks.eclipse.dependsOn(cleanEclipse)
+// with up-to-date test deps
+//tasks.eclipse.dependsOn(pluginUnderTestMetadata)
+
+////////////
+// FORMAT //
+////////////
+spotless {
+	java {
+		licenseHeaderFile	'gradle/spotless.license.java'		// License header file
+		importOrderFile		'gradle/spotless.importorder'		// An import ordering file, exported from Eclipse
+		eclipse().configFile'gradle/spotless.eclipseformat.xml'	// XML file dumped out by the Eclipse formatter
+	}
+	format 'misc', {
+		target '.gitignore', '*.gradle', '*.md', '.ci/*.sh'
+		indentWithTabs()
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
+	freshmark {
+		target '*.md'
+		propertiesFile('gradle.properties')
+	}
+}
+
+//////////////
+// FINDBUGS //
+//////////////
+apply plugin: 'findbugs'
+findbugs {
+	toolVersion = '3.0.1'
+	sourceSets = [sourceSets.main]	// don't check the test code
+	ignoreFailures = false 	// bug free or it doesn't ship!
+	reportsDir = file('build/findbugs')
+	effort = 'max'			// min|default|max
+	reportLevel = 'medium'	// low|medium|high (low = sensitive to even minor mistakes)
+	omitVisitors = []		// bugs that we want to ignore
+}
+// HTML instead of XML
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}
+// we'll want the findbugs annotations (they don't have a 3.0.1 version)
+dependencies {
+	compile 'com.google.code.findbugs:annotations:3.0.0'
+	compile 'com.google.code.findbugs:jsr305:3.0.0'
+}
+
+///////////
+// MAVEN //
+///////////
+apply plugin: 'maven-publish'
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allJava
+}
+
+// use markdown in javadoc
+def makeLink = { url, text -> "<a href=\"${url}\" style=\"text-transform: none;\">${text}</a>" }
+def javadocInfo = '<h2>' + makeLink("https://github.com/${org}/${name}", "${group}:${name}:${version}") +
+' by ' + makeLink('http://www.diffplug.com', 'DiffPlug') + '</h2>'
+
+def verSnapshot = { it.endsWith('-SNAPSHOT') ? 'snapshot' : it }
+
+javadoc {
+	// Where it's possible to name parameters and methods clearly enough
+	// that javadoc is not necessary, why make the code bigger?
+	//
+	// Thus, no javadoc warnings.
+	options.addStringOption('Xdoclint:none')
+	// setup the header
+	options.header javadocInfo
+	options.footer javadocInfo
+	// setup links
+	options.linksOffline('https://docs.oracle.com/javase/8/docs/api/', 'gradle/javadoc/java8')
+	options.linksOffline("https://docs.gradle.org/${gradle.gradleVersion}/javadoc/", 'gradle/javadoc/gradle')
+	options.linksOffline("https://diffplug.github.io/durian/javadoc/1.2.0}/", 'gradle/javadoc/durian')
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+////////////////
+// PUBLISHING //
+////////////////
+def isSnapshot = project.version.endsWith('-SNAPSHOT')
+// pulls the credentials from either the environment variable or gradle.properties
+def cred = {
+	if (System.env[it] != null) {
+		return System.env[it]
+	} else if (project.hasProperty(it)) {
+		return project[it]
+	} else {
+		return 'unknown_' + it
+	}
+}
+
+model { publishing {
+	publications {
+		pluginMaven {
+			artifact sourcesJar
+			artifact javadocJar
+			pom.withXml {
+				// findbugs annotations should have scope "provided"
+				asNode().dependencies.'*'.findAll() { it.groupId.text() == 'com.google.code.findbugs' }.each() { it.scope*.value = 'provided' }
+				// add MavenCentral requirements to the POM
+				asNode().children().last() + {
+					resolveStrategy = Closure.DELEGATE_FIRST
+					name project.name
+					description project.description
+					url "https://github.com/${project.org}/${project.name}"
+					scm {
+						url "https://github.com/${project.org}/${project.name}"
+						connection "scm:git:git://github.com/${project.org}/${project.name}"
+						developerConnection "scm:git:ssh:git@github.com/${project.org}/${project.name}"
+					}
+					licenses {
+						license {
+							name 'The Apache Software License, Version 2.0'
+							url 'http://www.apache.org/license/LICENSE-2.0.txt'
+							distribution 'repo'
+						}
+					}
+					developers {
+						developer {
+							id 'nedtwigg'
+							name 'Ned Twigg'
+							email 'ned.twigg@diffplug.com'
+						}
+					}
+				}
+			}
+		}
+	}
+	if (isSnapshot) {
+		// upload snapshots to oss.sonatype.org
+		repositories { maven {
+			url = 'https://oss.sonatype.org/content/repositories/snapshots'
+			credentials {
+				username = cred('nexus_user')
+				password = cred('nexus_pass')
+			}
+		} }
+	}
+} }
+
+if (!isSnapshot) {
+	////////////////////
+	// BINTRAY UPLOAD //
+	////////////////////
+	apply plugin: 'com.jfrog.bintray'
+	bintray {
+		user = cred('bintray_user')
+		key = cred('bintray_pass')
+		publications = ['pluginMaven']
+		publish = true
+		pkg {
+			repo = 'opensource'
+			name = project.name
+			userOrg = project.org
+			version {
+				name = project.version
+				mavenCentralSync {
+					user = cred('nexus_user')
+					password = cred('nexus_pass')
+				}
+			}
+		}
+	}
+	publish.dependsOn(bintrayUpload)
+	bintrayUpload.dependsOn(['generatePomFileForPluginMavenPublication', jar, sourcesJar, javadocJar])
+}
+
+//////////////////////////
+// GRADLE PLUGIN PORTAL //
+//////////////////////////
+apply plugin: "com.gradle.plugin-publish"
+pluginBundle {
+	// These settings are set for the whole plugin bundle
+	website = "https://github.com/${project.org}/${project.name}"
+	vcsUrl = "https://github.com/${project.org}/${project.name}"
+
+	plugins {
+		eclipseBuildPropertiesPlugin {
+			id = 'com.diffplug.gradle.eclipse.buildproperties'
+			displayName = 'Goomph eclipse.buildproperties'
+			description = "Uses Eclipse's build.properties to control a gradle build, and fixes the eclipse project classpath to include binary assets specified in build.properties."
+			tags = ['eclipse']
+		}
+	}
+
+	mavenCoordinates {
+		groupId = project.group
+		artifactId = project.name
+		version = project.version
+	}
+}
+// the gradle plugin portal isn't really compatible with SNAPSHOT versions
+// https://discuss.gradle.org/t/uploading-snapshot-versions-to-the-plugin-portal/11347
+if (isSnapshot) {
+	publishPlugins.enabled = false
+}
+
+//////////////////
+// GITHUB PAGES //
+//////////////////
+gitPublish {
+	repoUri = "https://${cred('gh_token')}@github.com/${project.org}/${project.name}"
+	branch = 'gh-pages'
+	preserve { include '**/*' }
+	contents {
+		from javadoc.destinationDir
+		into "javadoc/${verSnapshot(version)}"
+	}
+}
+tasks.gitPublishCopy.dependsOn(":javadoc")
