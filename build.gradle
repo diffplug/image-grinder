@@ -23,6 +23,7 @@ dependencies {
 	// misc
 	compile 'com.diffplug.durian:durian-core:1.2.0'
 	compile 'com.diffplug.durian:durian-collect:1.2.0'
+	compile 'com.diffplug.durian:durian-io:1.2.0'
 	// image processing
 	compile 'com.jhlabs:filters:2.0.235-1'
 	compile 'com.mortennobel:java-image-scaling:0.8.5'
