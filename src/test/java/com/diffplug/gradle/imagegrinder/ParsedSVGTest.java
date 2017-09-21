@@ -29,8 +29,8 @@ public class ParsedSVGTest extends ResourceHarness {
 		ParsedSVG parsed = ParsedSVG.parse(svg);
 		File out100 = newFile("test100.png");
 		File out200 = newFile("test200.png");
-		parsed.renderFile(out100, 16, 16);
-		parsed.renderFile(out200, 32, 32);
+		parsed.renderFile(out100, Size.create(16, 16));
+		parsed.renderFile(out200, Size.create(32, 32));
 		Assert.assertArrayEquals(getTestResource("Refresh100.png"), Files.toByteArray(out100));
 		Assert.assertArrayEquals(getTestResource("Refresh200.png"), Files.toByteArray(out200));
 	}

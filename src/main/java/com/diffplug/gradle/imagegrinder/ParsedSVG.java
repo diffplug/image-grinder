@@ -45,16 +45,8 @@ public class ParsedSVG {
 		}
 	}
 
-	public int getNativeWidth() {
-		return nativeWidth;
-	}
-
-	public int getNativeHeight() {
-		return nativeHeight;
-	}
-
 	private final SVGDocument svgDocument;
-	private final int nativeWidth, nativeHeight;
+	private final Size size;
 
 	private ParsedSVG(InputStream inputStream) throws IOException {
 		String parser = XMLResourceDescriptor.getXMLParserClassName();
@@ -62,8 +54,9 @@ public class ParsedSVG {
 		svgDocument = f.createSVGDocument("file://svg", inputStream);
 
 		Element svgDocumentNode = svgDocument.getDocumentElement();
-		nativeWidth = parseDimension(svgDocumentNode.getAttribute("width"));
-		nativeHeight = parseDimension(svgDocumentNode.getAttribute("height"));
+		size = Size.create(
+				parseDimension(svgDocumentNode.getAttribute("width")),
+				parseDimension(svgDocumentNode.getAttribute("height")));
 	}
 
 	private static int parseDimension(String str) {
@@ -74,13 +67,17 @@ public class ParsedSVG {
 		}
 	}
 
-	public void renderFile(File file, int outputWidth, int outputHeight) throws Exception {
+	public Size size() {
+		return size;
+	}
+
+	public void renderFile(File file, Size outSize) throws Exception {
 		try (OutputStream stream = Files.asByteSink(file).openBufferedStream()) {
-			renderPng(file.getAbsolutePath(), stream, outputWidth, outputHeight);
+			renderPng(file.getAbsolutePath(), stream, outSize);
 		}
 	}
 
-	public void renderPng(String name, OutputStream output, int outputWidth, int outputHeight) throws Exception {
+	public void renderPng(String name, OutputStream output, Size outSize) throws Exception {
 		PNGTranscoder transcoder = new PNGTranscoder() {
 			protected ImageRenderer createRenderer() {
 				ImageRenderer renderer = super.createRenderer();
@@ -98,8 +95,8 @@ public class ParsedSVG {
 				return renderer;
 			}
 		};
-		transcoder.addTranscodingHint(PNGTranscoder.KEY_WIDTH, new Float(outputWidth));
-		transcoder.addTranscodingHint(PNGTranscoder.KEY_HEIGHT, new Float(outputHeight));
+		transcoder.addTranscodingHint(PNGTranscoder.KEY_WIDTH, (float) outSize.width());
+		transcoder.addTranscodingHint(PNGTranscoder.KEY_HEIGHT, (float) outSize.height());
 
 		transcoder.setErrorHandler(new ErrorHandler() {
 			public void warning(TranscoderException arg0) throws TranscoderException {
