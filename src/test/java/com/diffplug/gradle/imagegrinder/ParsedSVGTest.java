@@ -22,15 +22,15 @@ import org.junit.Test;
 
 import com.diffplug.common.io.Files;
 
-public class RenderMojoTest extends ResourceHarness {
+public class ParsedSVGTest extends ResourceHarness {
 	@Test
 	public void testRender() throws Exception {
 		File svg = newFile("test.svg", getTestResource("Refresh.svg"));
+		ParsedSVG parsed = ParsedSVG.parse(svg);
 		File out100 = newFile("test100.png");
 		File out200 = newFile("test200.png");
-		RenderMojo.rasterize(svg, out100, 100);
-		RenderMojo.rasterize(svg, out200, 200);
-
+		parsed.renderFile(out100, 16, 16);
+		parsed.renderFile(out200, 32, 32);
 		Assert.assertArrayEquals(getTestResource("Refresh100.png"), Files.toByteArray(out100));
 		Assert.assertArrayEquals(getTestResource("Refresh200.png"), Files.toByteArray(out200));
 	}
