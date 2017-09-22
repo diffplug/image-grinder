@@ -16,6 +16,7 @@
 package com.diffplug.gradle.imagegrinder;
 
 import java.io.File;
+import java.nio.file.Files;
 
 import com.diffplug.common.base.Errors;
 import com.diffplug.common.base.Throwing;
@@ -26,7 +27,7 @@ class FileMisc {
 	/** Calls {@link File#mkdirs()} and throws an exception if it fails. */
 	public static void mkdirs(File d) {
 		retry(d, dir -> {
-			java.nio.file.Files.createDirectories(dir.toPath());
+			Files.createDirectories(dir.toPath());
 			return null;
 		});
 	}
@@ -34,9 +35,7 @@ class FileMisc {
 	/** Deletes the given file. */
 	public static void delete(File f) {
 		retry(f, file -> {
-			if (file.exists()) {
-				org.assertj.core.util.Files.delete(file);
-			}
+			Files.delete(f.toPath());
 			return null;
 		});
 	}

@@ -23,9 +23,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-import org.gradle.internal.impldep.com.google.common.base.Preconditions;
-
 import com.diffplug.common.base.Errors;
+import com.diffplug.common.base.Preconditions;
 import com.diffplug.common.io.Files;
 
 class SerializableMisc {

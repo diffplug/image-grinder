@@ -32,6 +32,8 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs;
 import org.gradle.workers.IsolationMode;
 import org.gradle.workers.WorkerExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.diffplug.common.collect.HashMultimap;
 import com.diffplug.spotless.LazyForwardingEquality;
@@ -84,12 +86,14 @@ public class ImageGrinderTask extends DefaultTask {
 			readFromCache(cache);
 		}
 		inputs.outOfDate(outOfDate -> {
+			logger.info("outOfDate: " + Subpath.subpath(srcDir, outOfDate.getFile()));
 			workerExecutor.submit(ProcessFile.class, workerConfig -> {
 				workerConfig.setIsolationMode(IsolationMode.NONE);
 				workerConfig.setParams(SerializableRef.create(ImageGrinderTask.this), outOfDate.getFile());
 			});
 		});
 		inputs.removed(removed -> {
+			logger.info("removed: " + Subpath.subpath(srcDir, removed.getFile()));
 			synchronized (map) {
 				map.removeAll(removed.getFile()).forEach(getProject()::delete);
 			}
@@ -99,20 +103,25 @@ public class ImageGrinderTask extends DefaultTask {
 	}
 
 	@Internal
+	public boolean debug = false;
+
+	@Internal
 	HashMultimap<File, File> map;
 
 	@SuppressWarnings("unchecked")
 	private void readFromCache(File file) {
 		if (file.exists()) {
-			map = HashMultimap.create();
-		} else {
 			map = SerializableMisc.fromFile(HashMultimap.class, file);
+		} else {
+			map = HashMultimap.create();
 		}
 	}
 
 	private void writeToCache(File file) {
 		FileMisc.mkdirs(file.getParentFile());
-		SerializableMisc.toFile(map, file);
+		synchronized (map) {
+			SerializableMisc.toFile(map, file);
+		}
 	}
 
 	public static class ProcessFile implements Runnable {
@@ -172,4 +181,6 @@ public class ImageGrinderTask extends DefaultTask {
 	public void setBumpThisNumberWhenTheGrinderChanges(Serializable bumpThisNumberWhenTheGrinderChanges) {
 		this.bumpThisNumberWhenTheGrinderChanges = bumpThisNumberWhenTheGrinderChanges;
 	}
+
+	private static final Logger logger = LoggerFactory.getLogger(ImageGrinderTask.class);
 }
