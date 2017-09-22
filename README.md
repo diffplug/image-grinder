@@ -28,10 +28,9 @@ output = prefixDelimiterReplace(input, 'https://{{org}}.github.io/{{name}}/javad
 
 ## Simple image processing
 
+To use it, just [add image-grinder to your buildscript](https://plugins.gradle.org/plugin/com.diffplug.gradle.image-grinder), and configure it as so:
+
 ```groovy
-plugins {
-	id 'com.diffplug.gradle.image-grinder'
-}
 imageGrinder {
 	// creates a task called 'eclipseSvg', you can name it whatever you want
 	eclipseSvg {
@@ -47,12 +46,17 @@ imageGrinder {
 }
 ```
 
+Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://diffplug.github.io/goomph/javadoc/1.0.0/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
+
+ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/4.1/userguide/custom_tasks.html#worker_api) introduced in Gradle 4.1 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/4.1/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required.
+
 ## Limitations
 
-- ImageGrinder can only read SVG images
-- ImageGrinder can only write PNG images
+- ImageGrinder can only read SVG images.
+- ImageGrinder can only write PNG images.
+- ImageGrinder needs Gradle 4.1 or higher.
 
-Not much of a grinder, but it does everything we needed!  If you need more, we're happy to take PR's!
+Not much of a grinder, but it does everything we needed.  If you need more, we're [happy to take PR's](CONTRIBUTING.md)!
 
 <!---freshmark /javadoc -->
 

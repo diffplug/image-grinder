@@ -1,6 +1,11 @@
 # Contributing to Goomph
 
-Pull requests are welcome, preferably against `master`.
+Pull requests are welcome!  In order to get merged, you'll need to:
+
+- [ ] have tests
+- [ ] update the changelog
+
+Once you meet those requirements, we'll do our best to merge and release your stuff within 24 hrs.
 
 Every successful Travis CI build on branch `master` is automatically published to [`https://oss.sonatype.org/content/repositories/snapshots`](https://oss.sonatype.org/content/repositories/snapshots/com/diffplug/), and its javadoc are published [here](http://diffplug.github.io/image-grinder/javadoc/snapshot/).
 
@@ -34,14 +39,13 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'com.diffplug.gradle:goomph:+'
-		classpath 'com.diffplug.durian:durian-swt:+'
+		classpath 'com.diffplug.gradle:image-grinder:+'
 	}
 }
 
 ```
 
-To test your changes, run `gradlew publishToMavenLocal` on your Goomph project.  Now you can make changes and test them on your project.
+To test your changes, run `gradlew publishToMavenLocal` on your ImageGrinder project.  Now you can make changes and test them on your project.
 
 ## License
 
