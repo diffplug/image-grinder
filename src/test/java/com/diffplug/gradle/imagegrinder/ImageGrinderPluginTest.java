@@ -30,6 +30,11 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 	}
 
 	private void writeBuild() throws IOException {
+		writeBuildWithBump(1);
+	}
+
+	private void writeBuildWithBump(Integer bump) throws IOException {
+		String bumpLine = bump == null ? "" : "    bumpThisNumberWhenTheGrinderChanges = " + bump;
 		write("build.gradle",
 				"plugins {",
 				"    id 'com.diffplug.gradle.image-grinder'",
@@ -38,7 +43,7 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 				"  eclipseSvg {",
 				"    srcDir = file('src')",
 				"    dstDir = file('dst')",
-				"    bumpThisNumberWhenTheGrinderChanges = 1",
+				bumpLine,
 				"    grinder { img ->",
 				"        img.render('.png')",
 				"        img.render('@2x.png', 2)",
@@ -68,7 +73,24 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 		write("src/refresh.svg", readTestResource("refresh.svg"));
 		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.UP_TO_DATE);
+
+		// if we change the file, it runs again
 		write("src/refresh.svg", readTestResource("diffpluglogo.svg"));
+		runAndAssert(TaskOutcome.SUCCESS);
+		runAndAssert(TaskOutcome.UP_TO_DATE);
+
+		// if we don't have a bump line, it's never up-to-date
+		writeBuildWithBump(null);
+		runAndAssert(TaskOutcome.SUCCESS);
+		runAndAssert(TaskOutcome.SUCCESS);
+
+		// if we put the bump line back, it can become up-to-date again
+		writeBuildWithBump(1);
+		runAndAssert(TaskOutcome.SUCCESS);
+		runAndAssert(TaskOutcome.UP_TO_DATE);
+
+		// and if we bump the line, it has to run again, even if that's the only thing that changed
+		writeBuildWithBump(2);
 		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.UP_TO_DATE);
 	}
