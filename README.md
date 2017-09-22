@@ -26,21 +26,37 @@ output = [
 output = prefixDelimiterReplace(input, 'https://{{org}}.github.io/{{name}}/javadoc/', '/', stable);
 -->
 
-## IDE-as-build-artifact.
+## Simple image processing
 
 It is possible to have many installations of the Eclipse IDE share a common set of installed artifacts, called a "bundlepool".  This means it is fast and efficient to get a purpose-built IDE for every project, preconfigured with all the plugins and settings appropriate for the project at hand.
 
 When you run `gradlew ide`, it builds and downloads an IDE into `build/oomphIde` with just the features you need.  Takes ~15 seconds and 1MB of disk space once all the common artifacts have been cached at `~/.goomph`.
 
 ```groovy
-imageGrinder {
-svg {
-	inputDir = file('src/main/svg')
-	outputDir = file('src/main/resources/images')
-	processor = EclipseSVG
+plugins {
+	id 'com.diffplug.gradle.image-grinder'
 }
+imageGrinder {
+	// creates a task called 'eclipseSvg', you can name it whatever you want
+	eclipseSvg {
+		srcDir = file('src')
+		dstDir = file('dst')
+		grinder { img ->
+			img.render('.png')
+			img.render('@2x.png', 2)
+		}
+		// used for up-to-date checking, bump this if the function above changes
+		bumpThisNumberWhenTheGrinderChanges = 1
+	}
 }
 ```
+
+## Limitations
+
+- ImageGrinder can only read SVG images
+- ImageGrinder can only write PNG images
+
+Not much of a grinder, but it does everything we needed!  If you need more, we're happy to take PR's!
 
 <!---freshmark /javadoc -->
 
