@@ -28,10 +28,6 @@ output = prefixDelimiterReplace(input, 'https://{{org}}.github.io/{{name}}/javad
 
 ## Simple image processing
 
-It is possible to have many installations of the Eclipse IDE share a common set of installed artifacts, called a "bundlepool".  This means it is fast and efficient to get a purpose-built IDE for every project, preconfigured with all the plugins and settings appropriate for the project at hand.
-
-When you run `gradlew ide`, it builds and downloads an IDE into `build/oomphIde` with just the features you need.  Takes ~15 seconds and 1MB of disk space once all the common artifacts have been cached at `~/.goomph`.
-
 ```groovy
 plugins {
 	id 'com.diffplug.gradle.image-grinder'
