@@ -27,25 +27,25 @@ import com.diffplug.common.base.Errors;
 public abstract class Img<T extends Size.Has> implements Size.Has {
 	private final ImageGrinderTask task;
 	private final Subpath subpath;
-	private final T raw;
+	private final T parsed;
 
-	public Img(ImageGrinderTask task, Subpath subpath, T raw) {
+	public Img(ImageGrinderTask task, Subpath subpath, T parsed) {
 		this.task = task;
 		this.subpath = subpath;
-		this.raw = raw;
+		this.parsed = parsed;
 	}
 
 	public Subpath subpath() {
 		return subpath;
 	}
 
-	public T raw() {
-		return raw;
+	public T parsed() {
+		return parsed;
 	}
 
 	@Override
 	public Size size() {
-		return raw().size();
+		return parsed().size();
 	}
 
 	/** Renders the image with the given suffix. */
