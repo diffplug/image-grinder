@@ -86,7 +86,7 @@ public class ImageGrinderTask extends DefaultTask {
 		inputs.outOfDate(outOfDate -> {
 			workerExecutor.submit(ProcessFile.class, workerConfig -> {
 				workerConfig.setIsolationMode(IsolationMode.NONE);
-				workerConfig.setParams(ImageGrinderTask.this, outOfDate.getFile());
+				workerConfig.setParams(SerializableRef.create(ImageGrinderTask.this), outOfDate.getFile());
 			});
 		});
 		inputs.removed(removed -> {
@@ -111,6 +111,7 @@ public class ImageGrinderTask extends DefaultTask {
 	}
 
 	private void writeToCache(File file) {
+		file.getParentFile().mkdirs();
 		SerializableMisc.toFile(map, file);
 	}
 
@@ -119,8 +120,8 @@ public class ImageGrinderTask extends DefaultTask {
 		final File sourceFile;
 
 		@Inject
-		public ProcessFile(ImageGrinderTask task, File sourceFile) {
-			this.task = task;
+		public ProcessFile(SerializableRef<ImageGrinderTask> taskRef, File sourceFile) {
+			this.task = taskRef.value();
 			this.sourceFile = sourceFile;
 		}
 

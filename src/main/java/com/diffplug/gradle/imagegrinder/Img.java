@@ -69,6 +69,7 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 
 	private File registerDstFile(String full) {
 		File file = new File(task.dstDir, full);
+		file.getParentFile().mkdirs();
 		synchronized (task.map) {
 			task.map.put(new File(task.srcDir, subpath.full), file);
 		}

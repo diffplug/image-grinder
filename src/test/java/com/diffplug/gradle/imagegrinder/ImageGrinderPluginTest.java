@@ -42,9 +42,9 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 				"    }",
 				"  }",
 				"}");
-		write("src/refresh.svg", readTestResource("Refresh.svg"));
-		gradleRunner().withArguments("eclipseSvg").build();
-		assertFile("dst/refresh.png").isEqualTo(readTestResource("Refresh100.png"));
-		assertFile("dst/refresh@2x.png").isEqualTo(readTestResource("Refresh200.png"));
+		write("src/refresh.svg", readTestResource("refresh.svg"));
+		gradleRunner().withArguments("eclipseSvg", "--stacktrace").build();
+		assertFile("dst/refresh.png").isEqualTo(readTestResource("refresh16.png"));
+		assertFile("dst/refresh@2x.png").isEqualTo(readTestResource("refresh32.png"));
 	}
 }
