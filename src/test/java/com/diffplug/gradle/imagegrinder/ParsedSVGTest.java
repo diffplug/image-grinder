@@ -22,7 +22,7 @@ import org.junit.Test;
 public class ParsedSVGTest extends ResourceHarness {
 	@Test
 	public void testRender() throws Exception {
-		File svg = write("test.svg", readTestResource("Refresh.svg"));
+		File svg = write("test.svg", readTestResource("refresh.svg"));
 		ParsedSVG parsed = ParsedSVG.parse(svg);
 		parsed.renderPng(file("test16.png"), Size.create(16, 16));
 		parsed.renderPng(file("test32.png"), Size.create(32, 32));
