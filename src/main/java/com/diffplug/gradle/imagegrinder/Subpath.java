@@ -20,15 +20,27 @@ import java.io.File;
 import com.diffplug.common.base.Preconditions;
 
 public class Subpath {
-	public final String full;
-	public final String extension;
-	public final String withoutExtension;
+	private final String full;
+	private final String extension;
+	private final String withoutExtension;
 
 	public static Subpath from(File root, File child) {
 		String rootPath = root.getAbsolutePath().replace('\\', '/') + '/';
 		String childPath = child.getAbsolutePath().replace('\\', '/');
 		Preconditions.checkArgument(childPath.startsWith(rootPath), "%s needs to start with %s", childPath, rootPath);
 		return new Subpath(childPath.substring(rootPath.length()));
+	}
+
+	public String full() {
+		return full;
+	}
+
+	public String extension() {
+		return extension;
+	}
+
+	public String withoutExtension() {
+		return withoutExtension;
 	}
 
 	private Subpath(String full) {

@@ -43,18 +43,22 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 		return raw().size();
 	}
 
-	public void render(String ext) {
-		render(ext, 1);
+	/** Renders the image with the given suffix. */
+	public void render(String suffix) {
+		render(suffix, 1);
 	}
 
-	public void render(String ext, double scale) {
-		render(ext, size().scaled(scale));
+	/** Renders the image with the given suffix at the given scale. */
+	public void render(String suffix, double scale) {
+		render(suffix, size().scaled(scale));
 	}
 
-	public void render(String ext, Size size) {
-		renderFull(subpath().withoutExtension + ext, size);
+	/** Renders the image with the given suffix at the given size. */
+	public void render(String suffix, Size size) {
+		renderFull(subpath().withoutExtension() + suffix, size);
 	}
 
+	/** Renders the image with the given full path at the given size. */
 	public void renderFull(String full, Size size) {
 		String extension = Subpath.extension(full);
 		try {
@@ -73,9 +77,9 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 
 	private File registerDstFile(String full) {
 		File file = new File(task.dstDir, full);
-		file.getParentFile().mkdirs();
+		FileMisc.mkdirs(file.getParentFile());
 		synchronized (task.map) {
-			task.map.put(new File(task.srcDir, subpath.full), file);
+			task.map.put(new File(task.srcDir, subpath.full()), file);
 		}
 		return file;
 	}

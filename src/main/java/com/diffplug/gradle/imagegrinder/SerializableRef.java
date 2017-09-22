@@ -17,10 +17,12 @@ package com.diffplug.gradle.imagegrinder;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A ref which makes it possible to pass references
@@ -44,6 +46,7 @@ public class SerializableRef<T> implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
+	@SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
 	public T value() {
 		WeakReference<Object> ref = valueMap.remove(key);
 		Objects.requireNonNull(ref, "You can only read the value from a ref once.");
@@ -51,6 +54,5 @@ public class SerializableRef<T> implements Serializable {
 	}
 
 	private static final AtomicInteger count = new AtomicInteger();
-	static final Map<Integer, WeakReference<Object>> valueMap = new HashMap<>();
-
+	static final Map<Integer, WeakReference<Object>> valueMap = new ConcurrentHashMap<>();
 }

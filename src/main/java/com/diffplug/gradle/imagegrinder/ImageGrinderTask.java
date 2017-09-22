@@ -111,7 +111,7 @@ public class ImageGrinderTask extends DefaultTask {
 	}
 
 	private void writeToCache(File file) {
-		file.getParentFile().mkdirs();
+		FileMisc.mkdirs(file.getParentFile());
 		SerializableMisc.toFile(map, file);
 	}
 
@@ -129,7 +129,7 @@ public class ImageGrinderTask extends DefaultTask {
 		public void run() {
 			Subpath subpath = Subpath.from(task.srcDir, sourceFile);
 			Img<?> img;
-			switch (subpath.extension) {
+			switch (subpath.extension()) {
 			case "svg":
 				ParsedSVG parsed = ParsedSVG.parse(sourceFile);
 				img = new Img<ParsedSVG>(task, subpath, parsed) {
