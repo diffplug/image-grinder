@@ -19,6 +19,7 @@ import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
+/** See [README.md](https://github.com/diffplug/image-grinder) for usage instructions. */
 public class ImageGrinderPlugin implements Plugin<Project> {
 	private static final String NAME = "imageGrinder";
 

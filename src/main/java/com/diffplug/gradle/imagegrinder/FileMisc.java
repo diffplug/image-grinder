@@ -23,7 +23,6 @@ import com.diffplug.common.base.Throwing;
 
 /** Miscellaneous utilties for copying files around. */
 class FileMisc {
-
 	/** Calls {@link File#mkdirs()} and throws an exception if it fails. */
 	public static void mkdirs(File d) {
 		retry(d, dir -> {

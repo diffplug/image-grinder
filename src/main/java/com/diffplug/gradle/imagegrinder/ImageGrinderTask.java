@@ -38,6 +38,28 @@ import org.slf4j.LoggerFactory;
 import com.diffplug.common.collect.HashMultimap;
 import com.diffplug.spotless.LazyForwardingEquality;
 
+/**
+ * See [README.md](https://github.com/diffplug/image-grinder) for usage instructions.
+ * 
+ * ## Tedious thing #1: Worker bypass
+ * 
+ * Worker requires that all arguments to its worker runnables ({@link ProcessFile}
+ * in this case) be Serializable.  There's no way to serialize our {@link #grinder(Action)}, so we had
+ * to use {@link SerializableRef} to sneakily pass our task to the worker.
+ * 
+ * ## Tedious thing #2: Removal handling
+ * 
+ * Tedious thing #2: .java to .class has a 1:1 mapping.  But that is not true for these images - a pipeline
+ * might create two images from one source, and the number of outputs might even change based on the content
+ * of the input (e.g. skip hi-res versions of very large images).
+ * 
+ * That means that when the user removes or changes an image, we need to remember exactly which files it
+ * created last time, or else we might end up with stale results lying around.  So, this task has the
+ * {@link #map} field which is a multimap from source file to the dst files it created.  When the task starts,
+ * it reads this map from disk, and when the task finishes, it writes it to disk.  Whenever an {@link Img} is
+ * rendered, the filename that was written is saved to this map via the {@link Img#registerDstFile(String)}
+ * method.
+ */
 public class ImageGrinderTask extends DefaultTask {
 	private final WorkerExecutor workerExecutor;
 

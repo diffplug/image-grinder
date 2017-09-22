@@ -19,6 +19,11 @@ import java.io.File;
 
 import com.diffplug.common.base.Errors;
 
+/**
+ * Wrapper for an image, with methods for writing it into
+ * the destination directory with whatever processing you
+ * would like.
+ */
 public abstract class Img<T extends Size.Has> implements Size.Has {
 	private final ImageGrinderTask task;
 	private final Subpath subpath;
@@ -75,7 +80,7 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 		}
 	}
 
-	private File registerDstFile(String full) {
+	File registerDstFile(String full) {
 		File file = new File(task.dstDir, full);
 		FileMisc.mkdirs(file.getParentFile());
 		synchronized (task.map) {
