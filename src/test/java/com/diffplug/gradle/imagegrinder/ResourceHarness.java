@@ -18,8 +18,12 @@ package com.diffplug.gradle.imagegrinder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Arrays;
 
+import org.assertj.core.api.AbstractByteArrayAssert;
+import org.assertj.core.api.Assertions;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 
@@ -42,20 +46,37 @@ public class ResourceHarness {
 	}
 
 	/** Returns a File (in a temporary folder) which has the given contents. */
-	protected File newFile(String subpath) throws IOException {
+	protected File file(String subpath) throws IOException {
 		return new File(rootFolder(), subpath);
 	}
 
 	/** Returns a File (in a temporary folder) which has the given contents. */
-	protected File newFile(String subpath, byte[] content) throws IOException {
-		File file = newFile(subpath);
+	protected File write(String subpath, byte[] content) throws IOException {
+		File file = file(subpath);
 		file.getParentFile().mkdirs();
 		Files.write(file.toPath(), content);
 		return file;
 	}
 
+	/** Writes the given content to the given path. */
+	protected File write(String path, String... lines) throws IOException {
+		File file = file(path);
+		Files.write(file.toPath(), Arrays.asList(lines), StandardCharsets.UTF_8);
+		return file;
+	}
+
+	/** Reads the given content from the given path. */
+	protected byte[] read(String path) throws IOException {
+		File file = file(path);
+		return Files.readAllBytes(file.toPath());
+	}
+
+	protected AbstractByteArrayAssert<?> assertFile(String path) throws IOException {
+		return Assertions.assertThat(read(path));
+	}
+
 	/** Returns the contents of the given file from the src/test/resources directory. */
-	protected static byte[] getTestResource(String filename) throws IOException {
+	protected static byte[] readTestResource(String filename) throws IOException {
 		URL url = ResourceHarness.class.getResource("/" + filename);
 		if (url == null) {
 			throw new IllegalArgumentException("No such resource " + filename);

@@ -36,12 +36,15 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
 
+import com.diffplug.common.base.Errors;
 import com.diffplug.common.io.Files;
 
 public class ParsedSVG {
-	public static ParsedSVG parse(File file) throws IOException {
+	public static ParsedSVG parse(File file) {
 		try (InputStream iconDocumentStream = new BufferedInputStream(new FileInputStream(file))) {
 			return new ParsedSVG(iconDocumentStream);
+		} catch (IOException e) {
+			throw Errors.asRuntime(e);
 		}
 	}
 
@@ -71,7 +74,7 @@ public class ParsedSVG {
 		return size;
 	}
 
-	public void renderFile(File file, Size outSize) throws Exception {
+	public void renderPng(File file, Size outSize) throws Exception {
 		try (OutputStream stream = Files.asByteSink(file).openBufferedStream()) {
 			renderPng(file.getAbsolutePath(), stream, outSize);
 		}

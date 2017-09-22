@@ -17,21 +17,16 @@ package com.diffplug.gradle.imagegrinder;
 
 import java.io.File;
 
-import org.gradle.internal.impldep.org.junit.Assert;
 import org.junit.Test;
-
-import com.diffplug.common.io.Files;
 
 public class ParsedSVGTest extends ResourceHarness {
 	@Test
 	public void testRender() throws Exception {
-		File svg = newFile("test.svg", getTestResource("Refresh.svg"));
+		File svg = write("test.svg", readTestResource("Refresh.svg"));
 		ParsedSVG parsed = ParsedSVG.parse(svg);
-		File out100 = newFile("test100.png");
-		File out200 = newFile("test200.png");
-		parsed.renderFile(out100, Size.create(16, 16));
-		parsed.renderFile(out200, Size.create(32, 32));
-		Assert.assertArrayEquals(getTestResource("Refresh100.png"), Files.toByteArray(out100));
-		Assert.assertArrayEquals(getTestResource("Refresh200.png"), Files.toByteArray(out200));
+		parsed.renderPng(file("test16.png"), Size.create(16, 16));
+		parsed.renderPng(file("test32.png"), Size.create(32, 32));
+		assertFile("test16.png").isEqualTo(readTestResource("refresh16.png"));
+		assertFile("test32.png").isEqualTo(readTestResource("refresh32.png"));
 	}
 }
