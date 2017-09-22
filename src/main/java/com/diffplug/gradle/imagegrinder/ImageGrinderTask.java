@@ -132,12 +132,7 @@ public class ImageGrinderTask extends DefaultTask {
 			switch (subpath.extension) {
 			case "svg":
 				ParsedSVG parsed = ParsedSVG.parse(sourceFile);
-				img = new Img<ParsedSVG>(task, subpath) {
-					@Override
-					public ParsedSVG raw() {
-						return parsed;
-					}
-
+				img = new Img<ParsedSVG>(task, subpath, parsed) {
 					@Override
 					protected void renderPng(File file, Size size) throws Exception {
 						parsed.renderPng(file, size);

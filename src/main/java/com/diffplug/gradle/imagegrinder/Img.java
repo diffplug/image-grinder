@@ -22,17 +22,21 @@ import com.diffplug.common.base.Errors;
 public abstract class Img<T extends Size.Has> implements Size.Has {
 	private final ImageGrinderTask task;
 	private final Subpath subpath;
+	private final T raw;
 
-	public Img(ImageGrinderTask task, Subpath subpath) {
+	public Img(ImageGrinderTask task, Subpath subpath, T raw) {
 		this.task = task;
 		this.subpath = subpath;
+		this.raw = raw;
 	}
 
 	public Subpath subpath() {
 		return subpath;
 	}
 
-	public abstract T raw();
+	public T raw() {
+		return raw;
+	}
 
 	@Override
 	public Size size() {
