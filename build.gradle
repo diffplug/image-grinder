@@ -24,9 +24,7 @@ dependencies {
 	compile 'com.diffplug.durian:durian-core:1.2.0'
 	compile 'com.diffplug.durian:durian-collect:1.2.0'
 	compile 'com.diffplug.durian:durian-io:1.2.0'
-	// image processing
-	compile 'com.jhlabs:filters:2.0.235-1'
-	compile 'com.mortennobel:java-image-scaling:0.8.5'
+	compile 'com.diffplug.spotless:spotless-lib:1.5.1'
 	// svg
 	compile 'org.apache.xmlgraphics:batik-rasterizer:1.7'
 	compile 'org.apache.xmlgraphics:batik-codec:1.7'
@@ -61,7 +59,7 @@ eclipse {
 // always create fresh projects
 tasks.eclipse.dependsOn(cleanEclipse)
 // with up-to-date test deps
-//tasks.eclipse.dependsOn(pluginUnderTestMetadata)
+tasks.eclipse.dependsOn(pluginUnderTestMetadata)
 
 ////////////
 // FORMAT //
@@ -248,11 +246,11 @@ pluginBundle {
 	vcsUrl = "https://github.com/${project.org}/${project.name}"
 
 	plugins {
-		eclipseBuildPropertiesPlugin {
-			id = 'com.diffplug.gradle.eclipse.buildproperties'
-			displayName = 'Goomph eclipse.buildproperties'
-			description = "Uses Eclipse's build.properties to control a gradle build, and fixes the eclipse project classpath to include binary assets specified in build.properties."
-			tags = ['eclipse']
+		imageGrinderPlugin {
+			id = 'com.diffplug.gradle.image-grinder'
+			displayName = 'ImageGrinder'
+			description = "Image manipulation for Gradle"
+			tags = ['image', 'svg', 'png']
 		}
 	}
 
@@ -272,7 +270,7 @@ if (isSnapshot) {
 // GITHUB PAGES //
 //////////////////
 gitPublish {
-	repoUri = "https://${cred('gh_token')}@github.com/${project.org}/${project.name}"
+	repoUri = "https://github.com/${project.org}/${project.name}"
 	branch = 'gh-pages'
 	preserve { include '**/*' }
 	contents {

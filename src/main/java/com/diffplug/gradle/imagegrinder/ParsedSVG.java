@@ -39,7 +39,7 @@ import org.w3c.dom.svg.SVGDocument;
 import com.diffplug.common.base.Errors;
 import com.diffplug.common.io.Files;
 
-public class ParsedSVG {
+public class ParsedSVG implements Size.Has {
 	public static ParsedSVG parse(File file) {
 		try (InputStream iconDocumentStream = new BufferedInputStream(new FileInputStream(file))) {
 			return new ParsedSVG(iconDocumentStream);
@@ -70,6 +70,7 @@ public class ParsedSVG {
 		}
 	}
 
+	@Override
 	public Size size() {
 		return size;
 	}

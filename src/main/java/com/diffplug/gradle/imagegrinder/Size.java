@@ -61,4 +61,8 @@ public class Size {
 			return false;
 		}
 	}
+
+	public interface Has {
+		Size size();
+	}
 }
