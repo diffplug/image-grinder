@@ -57,7 +57,7 @@ public class ParsedSVG implements Size.Has {
 		svgDocument = f.createSVGDocument("file://svg", inputStream);
 
 		Element svgDocumentNode = svgDocument.getDocumentElement();
-		size = Size.create(
+		size = Size.createRect(
 				parseDimension(svgDocumentNode.getAttribute("width")),
 				parseDimension(svgDocumentNode.getAttribute("height")));
 	}

@@ -18,12 +18,16 @@ package com.diffplug.gradle.imagegrinder;
 public class Size {
 	private final int width, height;
 
-	public static Size create(int width, int height) {
+	public static Size createRect(int width, int height) {
 		return new Size(width, height);
 	}
 
+	public static Size createSquare(int size) {
+		return new Size(size, size);
+	}
+
 	public Size scaled(double factor) {
-		return create((int) Math.round(width * factor), (int) Math.round(height * factor));
+		return createRect((int) Math.round(width * factor), (int) Math.round(height * factor));
 	}
 
 	public Size withMaxDim(int max) {
