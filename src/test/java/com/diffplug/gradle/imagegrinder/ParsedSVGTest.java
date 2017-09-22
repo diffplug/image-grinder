@@ -26,7 +26,15 @@ public class ParsedSVGTest extends ResourceHarness {
 		ParsedSVG parsed = ParsedSVG.parse(svg);
 		parsed.renderPng(file("test16.png"), Size.create(16, 16));
 		parsed.renderPng(file("test32.png"), Size.create(32, 32));
-		assertFile("test16.png").isEqualTo(readTestResource("refresh16.png"));
-		assertFile("test32.png").isEqualTo(readTestResource("refresh32.png"));
+		assertFile("test16.png").hasBinaryContent(readTestResource("refresh16.png"));
+		assertFile("test32.png").hasBinaryContent(readTestResource("refresh32.png"));
+	}
+
+	@Test
+	public void testRenderBig() throws Exception {
+		File svg = write("test.svg", readTestResource("diffpluglogo.svg"));
+		ParsedSVG parsed = ParsedSVG.parse(svg);
+		parsed.renderPng(file("test256.png"), Size.create(256, 256));
+		assertFile("test256.png").hasBinaryContent(readTestResource("diffpluglogo256.png"));
 	}
 }

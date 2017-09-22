@@ -20,10 +20,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import org.assertj.core.api.AbstractByteArrayAssert;
+import org.assertj.core.api.AbstractFileAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ListAssert;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 
@@ -58,6 +62,13 @@ public class ResourceHarness {
 		return file;
 	}
 
+	/** Returns a File (in a temporary folder) which has the given contents. */
+	protected File delete(String subpath) throws IOException {
+		File file = file(subpath);
+		FileMisc.delete(file);
+		return file;
+	}
+
 	/** Writes the given content to the given path. */
 	protected File write(String path, String... lines) throws IOException {
 		File file = file(path);
@@ -65,14 +76,17 @@ public class ResourceHarness {
 		return file;
 	}
 
-	/** Reads the given content from the given path. */
-	protected byte[] read(String path) throws IOException {
-		File file = file(path);
-		return Files.readAllBytes(file.toPath());
+	protected AbstractFileAssert<?> assertFile(String path) throws IOException {
+		return Assertions.assertThat(file(path));
 	}
 
-	protected AbstractByteArrayAssert<?> assertFile(String path) throws IOException {
-		return Assertions.assertThat(read(path));
+	protected ListAssert<String> assertFolderContent(String path) throws IOException {
+		List<String> children = new ArrayList<>();
+		for (File child : file(path).listFiles()) {
+			children.add(child.getName());
+		}
+		Collections.sort(children);
+		return Assertions.assertThat(children);
 	}
 
 	/** Returns the contents of the given file from the src/test/resources directory. */

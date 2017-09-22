@@ -31,6 +31,16 @@ class FileMisc {
 		});
 	}
 
+	/** Deletes the given file. */
+	public static void delete(File f) {
+		retry(f, file -> {
+			if (file.exists()) {
+				org.assertj.core.util.Files.delete(file);
+			}
+			return null;
+		});
+	}
+
 	private static final int MS_RETRY = 500;
 
 	/**

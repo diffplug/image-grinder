@@ -15,9 +15,13 @@
  */
 package com.diffplug.gradle.imagegrinder;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 
+import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.gradle.testkit.runner.TaskOutcome;
 import org.junit.Test;
 
 public class ImageGrinderPluginTest extends ResourceHarness {
@@ -25,8 +29,7 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 		return GradleRunner.create().withProjectDir(rootFolder()).withPluginClasspath();
 	}
 
-	@Test
-	public void test() throws Exception {
+	private void writeBuild() throws IOException {
 		write("build.gradle",
 				"plugins {",
 				"    id 'com.diffplug.gradle.image-grinder'",
@@ -42,9 +45,48 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 				"    }",
 				"  }",
 				"}");
-		write("src/refresh.svg", readTestResource("refresh.svg"));
-		gradleRunner().withArguments("eclipseSvg", "--stacktrace").build();
-		assertFile("dst/refresh.png").isEqualTo(readTestResource("refresh16.png"));
-		assertFile("dst/refresh@2x.png").isEqualTo(readTestResource("refresh32.png"));
 	}
+
+	private void runAndAssert(TaskOutcome outcome) throws Exception {
+		BuildResult result = gradleRunner().withArguments("eclipseSvg", "--stacktrace", "--info").build();
+		assertThat(result.getTasks()).hasSize(1);
+		assertThat(result.task(":eclipseSvg").getOutcome()).isEqualTo(outcome);
+	}
+
+	@Test
+	public void testOnce() throws Exception {
+		writeBuild();
+		write("src/refresh.svg", readTestResource("refresh.svg"));
+		runAndAssert(TaskOutcome.SUCCESS);
+		assertFile("dst/refresh.png").hasBinaryContent(readTestResource("refresh16.png"));
+		assertFile("dst/refresh@2x.png").hasBinaryContent(readTestResource("refresh32.png"));
+	}
+
+	@Test
+	public void testUpToDate() throws Exception {
+		writeBuild();
+		write("src/refresh.svg", readTestResource("refresh.svg"));
+		runAndAssert(TaskOutcome.SUCCESS);
+		runAndAssert(TaskOutcome.UP_TO_DATE);
+		write("src/refresh.svg", readTestResource("diffpluglogo.svg"));
+		runAndAssert(TaskOutcome.SUCCESS);
+		runAndAssert(TaskOutcome.UP_TO_DATE);
+	}
+
+	//	@Test
+	//	public void testIncremental() throws Exception {
+	//		writeBuild();
+	//
+	//		write("src/refresh.svg", readTestResource("refresh.svg"));
+	//		runAndAssert(TaskOutcome.SUCCESS);
+	//		assertFolderContent("dst").containsExactly("refresh.png", "refresh@2x.png");
+	//
+	//		write("src/diffpluglogo.svg", readTestResource("diffpluglogo.svg"));
+	//		runAndAssert(TaskOutcome.SUCCESS);
+	//		assertFolderContent("dst").containsExactly("diffpluglogo.png", "diffpluglogo@2x.png", "refresh.png", "refresh@2x.png");
+	//
+	//		delete("src/refresh.svg");
+	//		runAndAssert(TaskOutcome.SUCCESS);
+	//		assertFolderContent("dst").containsExactly("refresh.png", "refresh@2x.png");
+	//	}
 }
