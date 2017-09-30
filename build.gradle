@@ -26,8 +26,8 @@ dependencies {
 	compile 'com.diffplug.durian:durian-io:1.2.0'
 	compile 'com.diffplug.spotless:spotless-lib:1.5.1'
 	// svg
-	compile 'org.apache.xmlgraphics:batik-rasterizer:1.7'
-	compile 'org.apache.xmlgraphics:batik-codec:1.7'
+	compile 'org.apache.xmlgraphics:batik-rasterizer:1.9.1'
+	compile 'org.apache.xmlgraphics:batik-codec:1.9.1'
 	// testing
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:3.8.0'
