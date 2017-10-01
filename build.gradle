@@ -131,6 +131,7 @@ javadoc {
 	//
 	// Thus, no javadoc warnings.
 	options.addStringOption('Xdoclint:none')
+	options.noTimestamp()
 	// setup the header
 	options.header javadocInfo
 	options.footer javadocInfo
