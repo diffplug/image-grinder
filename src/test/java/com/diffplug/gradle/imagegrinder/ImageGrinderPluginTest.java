@@ -64,6 +64,7 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 		String[] lines = result.getOutput().split("\n");
 		Set<String> logged = new HashSet<>();
 		for (String line : lines) {
+			line = line.replace("\r", "");
 			if (line.startsWith("outOfDate: ") || line.startsWith("removed: ")) {
 				logged.add(line);
 			}
