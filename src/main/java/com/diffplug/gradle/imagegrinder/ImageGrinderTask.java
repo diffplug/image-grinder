@@ -140,7 +140,6 @@ public class ImageGrinderTask extends DefaultTask {
 	}
 
 	private void writeToCache(File file) {
-		FileMisc.mkdirs(file.getParentFile());
 		synchronized (map) {
 			SerializableMisc.toFile(map, file);
 		}

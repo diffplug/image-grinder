@@ -29,8 +29,11 @@ import com.diffplug.common.io.Files;
 
 class SerializableMisc {
 	static void toFile(Serializable obj, File file) {
-		try (OutputStream output = Files.asByteSink(file).openBufferedStream()) {
-			toStream(obj, output);
+		try {
+			FileMisc.mkdirs(file.getParentFile());
+			try (OutputStream output = Files.asByteSink(file).openBufferedStream()) {
+				toStream(obj, output);
+			}
 		} catch (IOException e) {
 			throw Errors.asRuntime(e);
 		}
