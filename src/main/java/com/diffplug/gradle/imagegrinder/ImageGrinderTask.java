@@ -109,6 +109,9 @@ public class ImageGrinderTask extends DefaultTask {
 		}
 		inputs.outOfDate(outOfDate -> {
 			logger.info("outOfDate: " + Subpath.subpath(srcDir, outOfDate.getFile()));
+			if (outOfDate.isModified()) {
+				remove(outOfDate.getFile());
+			}
 			workerExecutor.submit(ProcessFile.class, workerConfig -> {
 				workerConfig.setIsolationMode(IsolationMode.NONE);
 				workerConfig.setParams(SerializableRef.create(ImageGrinderTask.this), outOfDate.getFile());
@@ -116,12 +119,16 @@ public class ImageGrinderTask extends DefaultTask {
 		});
 		inputs.removed(removed -> {
 			logger.info("removed: " + Subpath.subpath(srcDir, removed.getFile()));
-			synchronized (map) {
-				map.removeAll(removed.getFile()).forEach(getProject()::delete);
-			}
+			remove(removed.getFile());
 		});
 		workerExecutor.await();
 		writeToCache(cache);
+	}
+
+	private void remove(File srcFile) {
+		synchronized (map) {
+			map.removeAll(srcFile).forEach(getProject()::delete);
+		}
 	}
 
 	@Internal
