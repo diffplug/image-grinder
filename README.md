@@ -2,15 +2,15 @@
 
 <!---freshmark shields
 output = [
-	link(shield('Gradle plugin', 'plugins.gradle.org', 'com.diffplug.gradle.image-grinder', 'blue'), 'https://plugins.gradle.org/plugin/com.diffplug.gradle.spotless'),
-	link(shield('Maven central', 'mavencentral', 'com.diffplug.gradle:image-grinder', 'blue'), 'http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.diffplug.gradle%22%20AND%20a%3A%22image-grinder%22'),
-	'',
-	link(shield('Changelog', 'changelog', '{{version}}', 'brightgreen'), 'CHANGES.md'),
-	link(shield('Javadoc', 'javadoc', '{{stable}}', 'brightgreen'), 'https://{{org}}.github.io/{{name}}/javadoc/{{stable}}/'),
-	link(image('Travis CI', 'https://travis-ci.org/{{org}}/{{name}}.svg?branch=master'), 'https://travis-ci.org/{{org}}/{{name}}'),
-	link(shield('Live chat', 'gitter', 'chat', 'brightgreen'), 'https://gitter.im/{{org}}/{{name}}'),
-	link(shield('License Apache', 'license', 'apache', 'brightgreen'), 'https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)')
-	].join('\n');
+    link(shield('Gradle plugin', 'plugins.gradle.org', 'com.diffplug.gradle.image-grinder', 'blue'), 'https://plugins.gradle.org/plugin/com.diffplug.gradle.spotless'),
+    link(shield('Maven central', 'mavencentral', 'com.diffplug.gradle:image-grinder', 'blue'), 'http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.diffplug.gradle%22%20AND%20a%3A%22image-grinder%22'),
+    '',
+    link(shield('Changelog', 'changelog', '{{version}}', 'brightgreen'), 'CHANGES.md'),
+    link(shield('Javadoc', 'javadoc', '{{stable}}', 'brightgreen'), 'https://{{org}}.github.io/{{name}}/javadoc/{{stable}}/'),
+    link(image('Travis CI', 'https://travis-ci.org/{{org}}/{{name}}.svg?branch=master'), 'https://travis-ci.org/{{org}}/{{name}}'),
+    link(shield('Live chat', 'gitter', 'chat', 'brightgreen'), 'https://gitter.im/{{org}}/{{name}}'),
+    link(shield('License Apache', 'license', 'apache', 'brightgreen'), 'https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)')
+    ].join('\n');
 -->
 [![Gradle plugin](https://img.shields.io/badge/plugins.gradle.org-com.diffplug.gradle.image--grinder-blue.svg)](https://plugins.gradle.org/plugin/com.diffplug.gradle.spotless)
 [![Maven central](https://img.shields.io/badge/mavencentral-com.diffplug.gradle%3Aimage--grinder-blue.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.diffplug.gradle%22%20AND%20a%3A%22image-grinder%22)
@@ -32,18 +32,18 @@ To use it, just [add image-grinder to your buildscript](https://plugins.gradle.o
 
 ```groovy
 imageGrinder {
-	// creates a task called 'processEclipseSvg', you can name it whatever you want
-	// if the name starts with 'process', then the 'processResources' task will depend on it
-	processEclipseSvg {
-		srcDir = file('src')
-		dstDir = file('dst')
-		grinder { img ->
-			img.render('.png')
-			img.render('@2x.png', 2)
-		}
-		// used for up-to-date checking, bump this if the function above changes
-		bumpThisNumberWhenTheGrinderChanges = 1
-	}
+    // creates a task called 'processEclipseSvg', you can name it whatever you want
+    // if the name starts with 'process', then the 'processResources' task will depend on it
+    processEclipseSvg {
+        srcDir = file('src')
+        dstDir = file('dst')
+        grinder { img ->
+            img.render('.png')
+            img.render('@2x.png', 2)
+        }
+        // used for up-to-date checking, bump this if the function above changes
+        bumpThisNumberWhenTheGrinderChanges = 1
+    }
 }
 ```
 

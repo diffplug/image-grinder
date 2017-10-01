@@ -71,7 +71,7 @@ spotless {
 		eclipse().configFile'gradle/spotless.eclipseformat.xml'	// XML file dumped out by the Eclipse formatter
 	}
 	format 'misc', {
-		target '.gitignore', '*.gradle', '*.md', '.ci/*.sh'
+		target '.gitignore', '*.gradle', '.ci/*.sh'
 		indentWithTabs()
 		trimTrailingWhitespace()
 		endWithNewline()
@@ -79,6 +79,9 @@ spotless {
 	freshmark {
 		target '*.md'
 		propertiesFile('gradle.properties')
+		indentWithSpaces(4)
+		trimTrailingWhitespace()
+		endWithNewline()
 	}
 }
 
