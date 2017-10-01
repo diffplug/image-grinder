@@ -15,8 +15,8 @@ output = [
 [![Gradle plugin](https://img.shields.io/badge/plugins.gradle.org-com.diffplug.gradle.image--grinder-blue.svg)](https://plugins.gradle.org/plugin/com.diffplug.gradle.spotless)
 [![Maven central](https://img.shields.io/badge/mavencentral-com.diffplug.gradle%3Aimage--grinder-blue.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.diffplug.gradle%22%20AND%20a%3A%22image-grinder%22)
 
-[![Changelog](https://img.shields.io/badge/changelog-1.1.0--SNAPSHOT-brightgreen.svg)](CHANGES.md)
-[![Javadoc](https://img.shields.io/badge/javadoc-1.0.0-brightgreen.svg)](https://diffplug.github.io/image-grinder/javadoc/1.0.0/)
+[![Changelog](https://img.shields.io/badge/changelog-2.0.0-brightgreen.svg)](CHANGES.md)
+[![Javadoc](https://img.shields.io/badge/javadoc-2.0.0-brightgreen.svg)](https://diffplug.github.io/image-grinder/javadoc/2.0.0/)
 [![Travis CI](https://travis-ci.org/diffplug/image-grinder.svg?branch=master)](https://travis-ci.org/diffplug/image-grinder)
 [![Live chat](https://img.shields.io/badge/gitter-chat-brightgreen.svg)](https://gitter.im/diffplug/image-grinder)
 [![License Apache](https://img.shields.io/badge/license-apache-brightgreen.svg)](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0))
