@@ -32,8 +32,9 @@ To use it, just [add image-grinder to your buildscript](https://plugins.gradle.o
 
 ```groovy
 imageGrinder {
-	// creates a task called 'eclipseSvg', you can name it whatever you want
-	eclipseSvg {
+	// creates a task called 'processEclipseSvg', you can name it whatever you want
+	// if the name starts with 'process', then the 'processResources' task will depend on it
+	processEclipseSvg {
 		srcDir = file('src')
 		dstDir = file('dst')
 		grinder { img ->

@@ -18,6 +18,8 @@ package com.diffplug.gradle.imagegrinder;
 import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
+import org.gradle.api.plugins.JavaPlugin;
 
 /** See [README.md](https://github.com/diffplug/image-grinder) for usage instructions. */
 public class ImageGrinderPlugin implements Plugin<Project> {
@@ -29,6 +31,10 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 			@Override
 			public ImageGrinderTask create(String name) {
 				ImageGrinderTask task = project.getTasks().create(name, ImageGrinderTask.class);
+				if (name.startsWith("process")) {
+					Task processResources = project.getTasks().getByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME);
+					processResources.dependsOn(task);
+				}
 				return task;
 			}
 		}));
