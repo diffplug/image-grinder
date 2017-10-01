@@ -25,6 +25,7 @@ import java.io.OutputStream;
 
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.gvt.renderer.ImageRenderer;
+import org.apache.batik.gvt.renderer.StaticRenderer;
 import org.apache.batik.transcoder.ErrorHandler;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -84,7 +85,12 @@ public class ParsedSVG implements Size.Has {
 	public void renderPng(String name, OutputStream output, Size outSize) throws Exception {
 		PNGTranscoder transcoder = new PNGTranscoder() {
 			protected ImageRenderer createRenderer() {
-				ImageRenderer renderer = super.createRenderer();
+				// we used to use `super.createRenderer()` but this would produce slightly different
+				// results on win and mac, leading to up-to-date problems.
+				//
+				// that's why we use StaticRenderer now
+				// https://issues.apache.org/jira/browse/BATIK-1153
+				ImageRenderer renderer = new StaticRenderer();
 				RenderingHints renderHints = renderer.getRenderingHints();
 				renderHints.add(new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF));
 				renderHints.add(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
