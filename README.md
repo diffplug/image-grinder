@@ -2,7 +2,7 @@
 
 <!---freshmark shields
 output = [
-    link(shield('Gradle plugin', 'plugins.gradle.org', 'com.diffplug.gradle.image-grinder', 'blue'), 'https://plugins.gradle.org/plugin/com.diffplug.gradle.spotless'),
+    link(shield('Gradle plugin', 'plugins.gradle.org', 'com.diffplug.gradle.image-grinder', 'blue'), 'https://plugins.gradle.org/plugin/com.diffplug.gradle.image-grinder'),
     link(shield('Maven central', 'mavencentral', 'com.diffplug.gradle:image-grinder', 'blue'), 'http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.diffplug.gradle%22%20AND%20a%3A%22image-grinder%22'),
     '',
     link(shield('Changelog', 'changelog', '{{version}}', 'brightgreen'), 'CHANGES.md'),
@@ -12,10 +12,10 @@ output = [
     link(shield('License Apache', 'license', 'apache', 'brightgreen'), 'https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)')
     ].join('\n');
 -->
-[![Gradle plugin](https://img.shields.io/badge/plugins.gradle.org-com.diffplug.gradle.image--grinder-blue.svg)](https://plugins.gradle.org/plugin/com.diffplug.gradle.spotless)
+[![Gradle plugin](https://img.shields.io/badge/plugins.gradle.org-com.diffplug.gradle.image--grinder-blue.svg)](https://plugins.gradle.org/plugin/com.diffplug.gradle.image-grinder)
 [![Maven central](https://img.shields.io/badge/mavencentral-com.diffplug.gradle%3Aimage--grinder-blue.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.diffplug.gradle%22%20AND%20a%3A%22image-grinder%22)
 
-[![Changelog](https://img.shields.io/badge/changelog-2.0.0-brightgreen.svg)](CHANGES.md)
+[![Changelog](https://img.shields.io/badge/changelog-2.1.0--SNAPSHOT-brightgreen.svg)](CHANGES.md)
 [![Javadoc](https://img.shields.io/badge/javadoc-2.0.0-brightgreen.svg)](https://diffplug.github.io/image-grinder/javadoc/2.0.0/)
 [![Travis CI](https://travis-ci.org/diffplug/image-grinder.svg?branch=master)](https://travis-ci.org/diffplug/image-grinder)
 [![Live chat](https://img.shields.io/badge/gitter-chat-brightgreen.svg)](https://gitter.im/diffplug/image-grinder)
@@ -47,7 +47,7 @@ imageGrinder {
 }
 ```
 
-Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://diffplug.github.io/goomph/javadoc/1.0.0/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
+Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://diffplug.github.io/image-grinder/javadoc/2.0.0/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
 
 ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/4.1/userguide/custom_tasks.html#worker_api) introduced in Gradle 4.1 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/4.1/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required.
 

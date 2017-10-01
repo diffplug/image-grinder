@@ -1,6 +1,8 @@
 # ImageGrinder
 
-### Version 1.1.0 - TBD ([javadoc](http://diffplug.github.io/image-grinder/javadoc/snapshot/), [snapshot](https://oss.sonatype.org/content/repositories/snapshots/com/diffplug/gradle/image-grinder/))
+### Version 2.1.0 - TBD ([javadoc](http://diffplug.github.io/image-grinder/javadoc/snapshot/), [snapshot]
+
+### Version 2.0.0 - September 30, 2017 ([javadoc](http://diffplug.github.io/image-grinder/javadoc/2.0.0/), [jcenter](https://bintray.com/diffplug/opensource/image-grinder/2.0.0/view))
 
 - If a task name starts with `process`, then it will be made into a requirement for the `processResources` task.
 - Bump batik dependency from `1.7` to `1.9.1`.
