@@ -15,23 +15,12 @@
  */
 package com.diffplug.gradle.imagegrinder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.IterableAssert;
-import org.gradle.testkit.runner.BuildResult;
-import org.gradle.testkit.runner.GradleRunner;
 import org.gradle.testkit.runner.TaskOutcome;
 import org.junit.Test;
 
-public class ImageGrinderPluginTest extends ResourceHarness {
-	private GradleRunner gradleRunner() throws IOException {
-		return GradleRunner.create().withProjectDir(rootFolder()).withPluginClasspath();
-	}
+public class ImageGrinderPluginTest extends GradleHarness {
 
 	private void writeBuild() throws IOException {
 		writeBuildWithBump(1);
@@ -54,22 +43,6 @@ public class ImageGrinderPluginTest extends ResourceHarness {
 				"    }",
 				"  }",
 				"}");
-	}
-
-	private IterableAssert<String> runAndAssert(TaskOutcome outcome) throws Exception {
-		BuildResult result = gradleRunner().withArguments("eclipseSvg", "--stacktrace", "--info").build();
-		assertThat(result.getTasks()).hasSize(1);
-		assertThat(result.task(":eclipseSvg").getOutcome()).isEqualTo(outcome);
-
-		String[] lines = result.getOutput().split("\n");
-		Set<String> logged = new HashSet<>();
-		for (String line : lines) {
-			line = line.replace("\r", "");
-			if (line.startsWith("outOfDate: ") || line.startsWith("removed: ")) {
-				logged.add(line);
-			}
-		}
-		return Assertions.assertThat(logged);
 	}
 
 	@Test
