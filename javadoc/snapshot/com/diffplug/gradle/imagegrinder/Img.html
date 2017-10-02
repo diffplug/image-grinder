@@ -180,14 +180,14 @@ would like.</p></div>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/Img.html#renderFull-java.lang.String-com.diffplug.gradle.imagegrinder.Size-">renderFull</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;full,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/Img.html#renderFull-java.lang.String-com.diffplug.gradle.imagegrinder.Size-">renderFull</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;fullPath,
           <a href="../../../../com/diffplug/gradle/imagegrinder/Size.html" title="class in com.diffplug.gradle.imagegrinder">Size</a>&nbsp;size)</code>
-<div class="block">Renders the image with the given full path at the given size.</div>
+<div class="block">Renders the image with the given full path (relative to the task&rsquo;s dst folder) at the given size.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>protected abstract void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/Img.html#renderPng-java.io.File-com.diffplug.gradle.imagegrinder.Size-">renderPng</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;fuile,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/Img.html#renderPng-java.io.File-com.diffplug.gradle.imagegrinder.Size-">renderPng</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
          <a href="../../../../com/diffplug/gradle/imagegrinder/Size.html" title="class in com.diffplug.gradle.imagegrinder">Size</a>&nbsp;size)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
@@ -310,9 +310,9 @@ would like.</p></div>
 <ul class="blockList">
 <li class="blockList">
 <h4>renderFull</h4>
-<pre>public&nbsp;void&nbsp;renderFull(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;full,
+<pre>public&nbsp;void&nbsp;renderFull(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;fullPath,
                        <a href="../../../../com/diffplug/gradle/imagegrinder/Size.html" title="class in com.diffplug.gradle.imagegrinder">Size</a>&nbsp;size)</pre>
-<div class="block"><p>Renders the image with the given full path at the given size.</p></div>
+<div class="block"><p>Renders the image with the given full path (relative to the task&rsquo;s dst folder) at the given size.</p></div>
 </li>
 </ul>
 <a name="renderPng-java.io.File-com.diffplug.gradle.imagegrinder.Size-">
@@ -321,7 +321,7 @@ would like.</p></div>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>renderPng</h4>
-<pre>protected abstract&nbsp;void&nbsp;renderPng(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;fuile,
+<pre>protected abstract&nbsp;void&nbsp;renderPng(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                   <a href="../../../../com/diffplug/gradle/imagegrinder/Size.html" title="class in com.diffplug.gradle.imagegrinder">Size</a>&nbsp;size)
                            throws <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <dl>
