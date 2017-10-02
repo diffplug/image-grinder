@@ -86,9 +86,9 @@ public class ParsedSVG implements Size.Has {
 		PNGTranscoder transcoder = new PNGTranscoder() {
 			protected ImageRenderer createRenderer() {
 				// we used to use `super.createRenderer()` but this would produce slightly different
-				// results on win and mac, leading to up-to-date problems.
+				// results on win and mac, leading to up-to-date problems.  Even StaticRenderer does
+				// as of 1.9.1, but it should be closer.
 				//
-				// that's why we use StaticRenderer now
 				// https://issues.apache.org/jira/browse/BATIK-1153
 				ImageRenderer renderer = new StaticRenderer();
 				RenderingHints renderHints = renderer.getRenderingHints();
