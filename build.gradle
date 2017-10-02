@@ -4,7 +4,7 @@ plugins {
 	// github pages
 	id 'org.ajoberstar.git-publish' version '0.3.0'
 	// spotless
-	id 'com.diffplug.gradle.spotless' version '3.5.2'
+	id 'com.diffplug.gradle.spotless' version '3.6.0'
 	// bintray
 	id 'com.jfrog.bintray' version '1.7.3'
 	// publish
