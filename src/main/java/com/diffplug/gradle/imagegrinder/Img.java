@@ -63,25 +63,25 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 		renderFull(subpath().withoutExtension() + suffix, size);
 	}
 
-	/** Renders the image with the given full path at the given size. */
-	public void renderFull(String full, Size size) {
-		String extension = Subpath.extension(full);
+	/** Renders the image with the given full path (relative to the task's dst folder) at the given size. */
+	public void renderFull(String fullPath, Size size) {
+		String extension = Subpath.extension(fullPath);
 		try {
 			switch (extension) {
 			case "png":
-				File file = registerDstFile(full);
+				File file = registerDstFile(fullPath);
 				renderPng(file, size);
 				break;
 			default:
-				throw new IllegalArgumentException("We only support render to .png, not " + full);
+				throw new IllegalArgumentException("We only support render to .png, not " + fullPath);
 			}
 		} catch (Exception e) {
 			throw Errors.asRuntime(e);
 		}
 	}
 
-	File registerDstFile(String full) {
-		File file = new File(task.dstDir, full);
+	File registerDstFile(String fullPath) {
+		File file = new File(task.dstDir, fullPath);
 		FileMisc.mkdirs(file.getParentFile());
 		synchronized (task.map) {
 			task.map.put(new File(task.srcDir, subpath.full()), file);
@@ -89,5 +89,5 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 		return file;
 	}
 
-	protected abstract void renderPng(File fuile, Size size) throws Exception;
+	protected abstract void renderPng(File file, Size size) throws Exception;
 }
