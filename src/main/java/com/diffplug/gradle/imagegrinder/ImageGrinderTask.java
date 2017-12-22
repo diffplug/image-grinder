@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.diffplug.common.collect.HashMultimap;
-import com.diffplug.spotless.LazyForwardingEquality;
 
 /**
  * See [README.md](https://github.com/diffplug/image-grinder) for usage instructions.
