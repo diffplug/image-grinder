@@ -107,6 +107,10 @@ public class ImageGrinderTask extends DefaultTask {
 			readFromCache(cache);
 		}
 		inputs.outOfDate(outOfDate -> {
+			// skip anything that isn't a folder
+			if (!outOfDate.getFile().isFile()) {
+				return;
+			}
 			logger.info("outOfDate: " + Subpath.subpath(srcDir, outOfDate.getFile()));
 			if (outOfDate.isModified()) {
 				remove(outOfDate.getFile());

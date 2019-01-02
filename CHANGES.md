@@ -2,6 +2,10 @@
 
 ### Version 2.1.0 - TBD ([javadoc](http://diffplug.github.io/image-grinder/javadoc/snapshot/), [snapshot]
 
+### Version 2.0.1 - January 2, 2018 ([javadoc](http://diffplug.github.io/image-grinder/javadoc/2.0.1/), [jcenter](https://bintray.com/diffplug/opensource/image-grinder/2.0.1/view))
+
+- Fixed a bug where image-grinder would barf on folders that got included in the input files.
+
 ### Version 2.0.0 - September 30, 2017 ([javadoc](http://diffplug.github.io/image-grinder/javadoc/2.0.0/), [jcenter](https://bintray.com/diffplug/opensource/image-grinder/2.0.0/view))
 
 - If a task name starts with `process`, then it will be made into a requirement for the `processResources` task.
