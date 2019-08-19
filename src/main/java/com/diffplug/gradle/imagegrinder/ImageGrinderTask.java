@@ -86,7 +86,6 @@ public class ImageGrinderTask extends DefaultTask {
 		}
 	}
 
-	@Internal
 	Action<Img<?>> grinder;
 
 	public void grinder(Action<Img<?>> grinder) {
@@ -134,10 +133,8 @@ public class ImageGrinderTask extends DefaultTask {
 		}
 	}
 
-	@Internal
 	public boolean debug = false;
 
-	@Internal
 	HashMultimap<File, File> map;
 
 	@SuppressWarnings("unchecked")
