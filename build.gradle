@@ -9,6 +9,8 @@ plugins {
 	id 'com.jfrog.bintray' version '1.7.3'
 	// publish
 	id 'com.gradle.plugin-publish' version '0.9.7'
+	// dependencyUpdates
+	id 'com.github.ben-manes.versions' version '0.22.0'
 }
 
 apply plugin: 'java-gradle-plugin'
