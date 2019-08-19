@@ -24,13 +24,16 @@ import javax.inject.Inject;
 
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.file.RegularFileProperty;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
-import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs;
-import org.gradle.workers.IsolationMode;
+import org.gradle.workers.WorkAction;
+import org.gradle.workers.WorkParameters;
+import org.gradle.workers.WorkQueue;
 import org.gradle.workers.WorkerExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,6 +108,7 @@ public class ImageGrinderTask extends DefaultTask {
 		} else {
 			readFromCache(cache);
 		}
+		WorkQueue queue = workerExecutor.noIsolation();
 		inputs.outOfDate(outOfDate -> {
 			// skip anything that isn't a folder
 			if (!outOfDate.getFile().isFile()) {
@@ -114,9 +118,9 @@ public class ImageGrinderTask extends DefaultTask {
 			if (outOfDate.isModified()) {
 				remove(outOfDate.getFile());
 			}
-			workerExecutor.submit(ProcessFile.class, workerConfig -> {
-				workerConfig.setIsolationMode(IsolationMode.NONE);
-				workerConfig.setParams(SerializableRef.create(ImageGrinderTask.this), outOfDate.getFile());
+			queue.submit(RenderSvg.class, params -> {
+				params.sourceFile().set(outOfDate.getFile());
+				params.taskRef().set(SerializableRef.create(ImageGrinderTask.this));
 			});
 		});
 		inputs.removed(removed -> {
@@ -152,18 +156,17 @@ public class ImageGrinderTask extends DefaultTask {
 		}
 	}
 
-	public static class ProcessFile implements Runnable {
-		final ImageGrinderTask task;
-		final File sourceFile;
+	public interface Params extends WorkParameters {
+		RegularFileProperty sourceFile();
 
-		@Inject
-		public ProcessFile(SerializableRef<ImageGrinderTask> taskRef, File sourceFile) {
-			this.task = taskRef.value();
-			this.sourceFile = sourceFile;
-		}
+		Property<SerializableRef<ImageGrinderTask>> taskRef();
+	}
 
+	public static abstract class RenderSvg implements WorkAction<Params> {
 		@Override
-		public void run() {
+		public void execute() {
+			File sourceFile = getParameters().sourceFile().get().getAsFile();
+			ImageGrinderTask task = getParameters().taskRef().get().value();
 			Subpath subpath = Subpath.from(task.srcDir, sourceFile);
 			Img<?> img;
 			switch (subpath.extension()) {
