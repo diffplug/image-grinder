@@ -27,11 +27,11 @@ dependencies {
 	compile 'com.diffplug.durian:durian-collect:1.2.0'
 	compile 'com.diffplug.durian:durian-io:1.2.0'
 	// svg
-	compile 'org.apache.xmlgraphics:batik-rasterizer:1.9.1'
-	compile 'org.apache.xmlgraphics:batik-codec:1.9.1'
+	compile 'org.apache.xmlgraphics:batik-rasterizer:1.11'
+	compile 'org.apache.xmlgraphics:batik-codec:1.11'
 	// testing
 	testCompile 'junit:junit:4.12'
-	testCompile 'org.assertj:assertj-core:3.8.0'
+	testCompile 'org.assertj:assertj-core:3.13.2'
 }
 
 test {
