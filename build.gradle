@@ -1,14 +1,14 @@
 plugins {
 	// markdown doclet
-	id 'org.jdrupes.mdoclet' version '1.0.3'
+	id 'org.jdrupes.mdoclet' version '1.0.5'
 	// github pages
-	id 'org.ajoberstar.git-publish' version '0.3.0'
+	id 'org.ajoberstar.git-publish' version '2.1.1'
 	// spotless
-	id 'com.diffplug.gradle.spotless' version '3.6.0'
+	id 'com.diffplug.gradle.spotless' version '3.24.1'
 	// bintray
-	id 'com.jfrog.bintray' version '1.7.3'
+	id 'com.jfrog.bintray' version '1.8.4'
 	// publish
-	id 'com.gradle.plugin-publish' version '0.9.7'
+	id 'com.gradle.plugin-publish' version '0.10.1'
 	// dependencyUpdates
 	id 'com.github.ben-manes.versions' version '0.22.0'
 }
