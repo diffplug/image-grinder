@@ -79,17 +79,17 @@
 <ul>
 <li type="circle">java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><span class="typeNameLink">Object</span></a>
 <ul>
-<li type="circle">org.gradle.api.internal.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/internal.AbstractTask.html?is-external=true" title="class or interface in org.gradle.api"><span class="typeNameLink">AbstractTask</span></a> (implements org.gradle.api.internal.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/internal.DynamicObjectAware.html?is-external=true" title="class or interface in org.gradle.api">DynamicObjectAware</a>, org.gradle.api.internal.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/internal.TaskInternal.html?is-external=true" title="class or interface in org.gradle.api">TaskInternal</a>)
+<li type="circle">org.gradle.api.internal.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/internal.AbstractTask.html?is-external=true" title="class or interface in org.gradle.api"><span class="typeNameLink">AbstractTask</span></a> (implements org.gradle.api.internal.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/internal.DynamicObjectAware.html?is-external=true" title="class or interface in org.gradle.api">DynamicObjectAware</a>, org.gradle.api.internal.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/internal.TaskInternal.html?is-external=true" title="class or interface in org.gradle.api">TaskInternal</a>)
 <ul>
-<li type="circle">org.gradle.api.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/DefaultTask.html?is-external=true" title="class or interface in org.gradle.api"><span class="typeNameLink">DefaultTask</span></a>
+<li type="circle">org.gradle.api.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true" title="class or interface in org.gradle.api"><span class="typeNameLink">DefaultTask</span></a>
 <ul>
 <li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/ImageGrinderTask.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">ImageGrinderTask</span></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/ImageGrinderPlugin.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">ImageGrinderPlugin</span></a> (implements org.gradle.api.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Plugin.html?is-external=true" title="class or interface in org.gradle.api">Plugin</a>&lt;T&gt;)</li>
-<li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/ImageGrinderTask.ProcessFile.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">ImageGrinderTask.ProcessFile</span></a> (implements java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>)</li>
+<li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/ImageGrinderPlugin.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">ImageGrinderPlugin</span></a> (implements org.gradle.api.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Plugin.html?is-external=true" title="class or interface in org.gradle.api">Plugin</a>&lt;T&gt;)</li>
+<li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/ImageGrinderTask.RenderSvg.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">ImageGrinderTask.RenderSvg</span></a> (implements org.gradle.workers.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/workers.WorkAction.html?is-external=true" title="class or interface in org.gradle">WorkAction</a>&lt;T&gt;)</li>
 <li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/Img.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Img</span></a>&lt;T&gt; (implements com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/Size.Has.html" title="interface in com.diffplug.gradle.imagegrinder">Size.Has</a>)</li>
 <li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/ParsedSVG.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">ParsedSVG</span></a> (implements com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/Size.Has.html" title="interface in com.diffplug.gradle.imagegrinder">Size.Has</a>)</li>
 <li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/SerializableRef.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">SerializableRef</span></a>&lt;T&gt; (implements java.io.<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>)</li>
@@ -101,6 +101,11 @@
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
 <li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/Size.Has.html" title="interface in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Size.Has</span></a></li>
+<li type="circle">org.gradle.workers.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/workers.WorkParameters.html?is-external=true" title="class or interface in org.gradle"><span class="typeNameLink">WorkParameters</span></a>
+<ul>
+<li type="circle">com.diffplug.gradle.imagegrinder.<a href="com/diffplug/gradle/imagegrinder/ImageGrinderTask.RenderSvgParams.html" title="interface in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">ImageGrinderTask.RenderSvgParams</span></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->

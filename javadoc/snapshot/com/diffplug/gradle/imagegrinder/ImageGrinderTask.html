@@ -17,8 +17,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":10,"i1":6,"i2":6,"i3":10,"i4":10,"i5":10};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderPlugin.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.ProcessFile.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.RenderSvg.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/diffplug/gradle/imagegrinder/ImageGrinderTask.html" target="_top">Frames</a></li>
@@ -98,10 +98,10 @@ var activeTableTab = "activeTableTab";
 <li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/internal.AbstractTask.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.internal.AbstractTask</a></li>
+<li><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/internal.AbstractTask.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.internal.AbstractTask</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/DefaultTask.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.DefaultTask</a></li>
+<li><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.DefaultTask</a></li>
 <li>
 <ul class="inheritance">
 <li>com.diffplug.gradle.imagegrinder.ImageGrinderTask</li>
@@ -117,15 +117,16 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a>&gt;, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/internal.DynamicObjectAware.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.internal.DynamicObjectAware</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/internal.TaskInternal.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.internal.TaskInternal</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/plugins/ExtensionAware.html?is-external=true" title="class or interface in org.gradle.api.plugins">ExtensionAware</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/util.Configurable.html?is-external=true" title="class or interface in org.gradle">org.gradle.util.Configurable</a>&lt;<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a>&gt;</dd>
+<dd><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a>&gt;, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/internal.DynamicObjectAware.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.internal.DynamicObjectAware</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/internal.TaskInternal.html?is-external=true" title="class or interface in org.gradle.api">org.gradle.api.internal.TaskInternal</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/plugins/ExtensionAware.html?is-external=true" title="class or interface in org.gradle.api.plugins">ExtensionAware</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/util.Configurable.html?is-external=true" title="class or interface in org.gradle">org.gradle.util.Configurable</a>&lt;<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a>&gt;</dd>
 </dl>
 <hr>
 <br>
-<pre>public class <span class="typeNameLabel">ImageGrinderTask</span>
-extends <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/DefaultTask.html?is-external=true" title="class or interface in org.gradle.api">DefaultTask</a></pre>
+<pre><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/tasks/CacheableTask.html?is-external=true" title="class or interface in org.gradle.api.tasks">@CacheableTask</a>
+public abstract class <span class="typeNameLabel">ImageGrinderTask</span>
+extends <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true" title="class or interface in org.gradle.api">DefaultTask</a></pre>
 <div class="block"><p>See <a href="https://github.com/diffplug/image-grinder" target="_top">README.md</a> for usage instructions.</p>
 <h2><a href="#tedious-thing-1-worker-bypass" id="tedious-thing-1-worker-bypass">Tedious thing #1: Worker bypass</a></h2>
-<p>Worker requires that all arguments to its worker runnables (<a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.ProcessFile.html" title="class in com.diffplug.gradle.imagegrinder"><code>ImageGrinderTask.ProcessFile</code></a>
+<p>Worker requires that all arguments to its worker runnables (<code>ProcessFile</code>
 in this case) be Serializable.  There&rsquo;s no way to serialize our <a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#grinder-org.gradle.api.Action-"><code>grinder(Action)</code></a>, so we had
 to use <a href="../../../../com/diffplug/gradle/imagegrinder/SerializableRef.html" title="class in com.diffplug.gradle.imagegrinder"><code>SerializableRef</code></a> to sneakily pass our task to the worker.</p>
 <h2><a href="#tedious-thing-2-removal-handling" id="tedious-thing-2-removal-handling">Tedious thing #2: Removal handling</a></h2>
@@ -158,15 +159,19 @@ method.</p></div>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.ProcessFile.html" title="class in com.diffplug.gradle.imagegrinder">ImageGrinderTask.ProcessFile</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.RenderSvg.html" title="class in com.diffplug.gradle.imagegrinder">ImageGrinderTask.RenderSvg</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static interface&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.RenderSvgParams.html" title="interface in com.diffplug.gradle.imagegrinder">ImageGrinderTask.RenderSvgParams</a></span></code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="nested.classes.inherited.from.class.org.gradle.api.Task">
 <!--   -->
 </a>
-<h3>Nested classes/interfaces inherited from interface&nbsp;org.gradle.api.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a></h3>
-<code><a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.Namer.html?is-external=true" title="class or interface in org.gradle.api">Task.Namer</a></code></li>
+<h3>Nested classes/interfaces inherited from interface&nbsp;org.gradle.api.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a></h3>
+<code><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.Namer.html?is-external=true" title="class or interface in org.gradle.api">Task.Namer</a></code></li>
 </ul>
 </li>
 </ul>
@@ -191,8 +196,8 @@ method.</p></div>
 <li class="blockList"><a name="fields.inherited.from.class.org.gradle.api.Task">
 <!--   -->
 </a>
-<h3>Fields inherited from interface&nbsp;org.gradle.api.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a></h3>
-<code><a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true#TASK_ACTION" title="class or interface in org.gradle.api">TASK_ACTION</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true#TASK_DEPENDS_ON" title="class or interface in org.gradle.api">TASK_DEPENDS_ON</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true#TASK_DESCRIPTION" title="class or interface in org.gradle.api">TASK_DESCRIPTION</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true#TASK_GROUP" title="class or interface in org.gradle.api">TASK_GROUP</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true#TASK_NAME" title="class or interface in org.gradle.api">TASK_NAME</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true#TASK_OVERWRITE" title="class or interface in org.gradle.api">TASK_OVERWRITE</a>, <a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Task.html?is-external=true#TASK_TYPE" title="class or interface in org.gradle.api">TASK_TYPE</a></code></li>
+<h3>Fields inherited from interface&nbsp;org.gradle.api.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true" title="class or interface in org.gradle.api">Task</a></h3>
+<code><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_ACTION" title="class or interface in org.gradle.api">TASK_ACTION</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_CONSTRUCTOR_ARGS" title="class or interface in org.gradle.api">TASK_CONSTRUCTOR_ARGS</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_DEPENDS_ON" title="class or interface in org.gradle.api">TASK_DEPENDS_ON</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_DESCRIPTION" title="class or interface in org.gradle.api">TASK_DESCRIPTION</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_GROUP" title="class or interface in org.gradle.api">TASK_GROUP</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_NAME" title="class or interface in org.gradle.api">TASK_NAME</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_OVERWRITE" title="class or interface in org.gradle.api">TASK_OVERWRITE</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Task.html?is-external=true#TASK_TYPE" title="class or interface in org.gradle.api">TASK_TYPE</a></code></li>
 </ul>
 </li>
 </ul>
@@ -208,7 +213,7 @@ method.</p></div>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#ImageGrinderTask-org.gradle.workers.WorkerExecutor-">ImageGrinderTask</a></span>(<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/workers.WorkerExecutor.html?is-external=true" title="class or interface in org.gradle">org.gradle.workers.WorkerExecutor</a>&nbsp;workerExecutor)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#ImageGrinderTask-org.gradle.workers.WorkerExecutor-">ImageGrinderTask</a></span>(<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/workers.WorkerExecutor.html?is-external=true" title="class or interface in org.gradle">org.gradle.workers.WorkerExecutor</a>&nbsp;workerExecutor)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -220,7 +225,7 @@ method.</p></div>
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -230,40 +235,39 @@ method.</p></div>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#getBumpThisNumberWhenTheGrinderChanges--">getBumpThisNumberWhenTheGrinderChanges</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a></code></td>
+<td class="colFirst"><code>abstract <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/file/DirectoryProperty.html?is-external=true" title="class or interface in org.gradle.api.file">DirectoryProperty</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#getDstDir--">getDstDir</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a></code></td>
+<td class="colFirst"><code>abstract <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/file/DirectoryProperty.html?is-external=true" title="class or interface in org.gradle.api.file">DirectoryProperty</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#getSrcDir--">getSrcDir</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#grinder-org.gradle.api.Action-">grinder</a></span>(<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Action.html?is-external=true" title="class or interface in org.gradle.api">Action</a>&lt;<a href="../../../../com/diffplug/gradle/imagegrinder/Img.html" title="class in com.diffplug.gradle.imagegrinder">Img</a>&lt;?&gt;&gt;&nbsp;grinder)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#grinder-org.gradle.api.Action-">grinder</a></span>(<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Action.html?is-external=true" title="class or interface in org.gradle.api">Action</a>&lt;<a href="../../../../com/diffplug/gradle/imagegrinder/Img.html" title="class in com.diffplug.gradle.imagegrinder">Img</a>&lt;?&gt;&gt;&nbsp;grinder)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#performAction-org.gradle.api.tasks.incremental.IncrementalTaskInputs-">performAction</a></span>(<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/tasks/incremental/IncrementalTaskInputs.html?is-external=true" title="class or interface in org.gradle.api.tasks.incremental">IncrementalTaskInputs</a>&nbsp;inputs)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#performAction-org.gradle.work.InputChanges-">performAction</a></span>(<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/work.InputChanges.html?is-external=true" title="class or interface in org.gradle">org.gradle.work.InputChanges</a>&nbsp;inputChanges)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#setBumpThisNumberWhenTheGrinderChanges-java.io.Serializable-">setBumpThisNumberWhenTheGrinderChanges</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>&nbsp;bumpThisNumberWhenTheGrinderChanges)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#setDstDir-java.io.File-">setDstDir</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;dstDir)</code>&nbsp;</td>
-</tr>
-<tr id="i7" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.html#setSrcDir-java.io.File-">setSrcDir</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;srcDir)</code>&nbsp;</td>
-</tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.org.gradle.api.DefaultTask">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.gradle.api.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true" title="class or interface in org.gradle.api">DefaultTask</a></h3>
+<code><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true#newInputDirectory--" title="class or interface in org.gradle.api">newInputDirectory</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true#newInputFile--" title="class or interface in org.gradle.api">newInputFile</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true#newOutputDirectory--" title="class or interface in org.gradle.api">newOutputDirectory</a>, <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/DefaultTask.html?is-external=true#newOutputFile--" title="class or interface in org.gradle.api">newOutputFile</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.org.gradle.api.internal.AbstractTask">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;org.gradle.api.internal.<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/internal.AbstractTask.html?is-external=true" title="class or interface in org.gradle.api">AbstractTask</a></h3>
-<code>addValidator, appendParallelSafeAction, compareTo, configure, deleteAllActions, dependsOn, dependsOnTaskDidWork, doFirst, doFirst, doLast, doLast, execute, finalizedBy, getActions, getAnt, getAsDynamicObject, getConvention, getDependsOn, getDescription, getDestroyables, getDidWork, getEnabled, getExecuter, getExtensions, getFinalizedBy, getGroup, getIdentityPath, getImpliesSubProjects, getInputs, getLogger, getLogging, getMustRunAfter, getName, getOnlyIf, getOutputs, getPath, getProject, getServices, getShouldRunAfter, getStandardOutputCapture, getState, getTaskActions, getTaskDependencies, getTemporaryDir, getTemporaryDirFactory, getValidators, hasProperty, injectIntoNewInstance, isEnabled, isHasCustomActions, leftShift, mustRunAfter, newInputFile, newOutputDirectory, newOutputFile, onlyIf, onlyIf, prependParallelSafeAction, property, setActions, setDependsOn, setDescription, setDidWork, setEnabled, setExecuter, setFinalizedBy, setGroup, setImpliesSubProjects, setMustRunAfter, setOnlyIf, setOnlyIf, setProperty, setShouldRunAfter, shouldRunAfter, toString</code></li>
+<h3>Methods inherited from class&nbsp;org.gradle.api.internal.<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/internal.AbstractTask.html?is-external=true" title="class or interface in org.gradle.api">AbstractTask</a></h3>
+<code>appendParallelSafeAction, compareTo, configure, dependsOn, doFirst, doFirst, doFirst, doLast, doLast, doLast, finalizedBy, getActions, getAnt, getAsDynamicObject, getConvention, getDependsOn, getDescription, getDestroyables, getDidWork, getEnabled, getExtensions, getFinalizedBy, getGroup, getIdentityPath, getImpliesSubProjects, getInputs, getLocalState, getLogger, getLogging, getMustRunAfter, getName, getOnlyIf, getOutputs, getPath, getProject, getServices, getShouldRunAfter, getStandardOutputCapture, getState, getTaskActions, getTaskDependencies, getTaskIdentity, getTemporaryDir, getTemporaryDirFactory, getTimeout, hasProperty, hasTaskActions, injectIntoNewInstance, isEnabled, isHasCustomActions, mustRunAfter, onlyIf, onlyIf, prependParallelSafeAction, property, replaceLogger, setActions, setDependsOn, setDescription, setDidWork, setEnabled, setFinalizedBy, setGroup, setImpliesSubProjects, setMustRunAfter, setOnlyIf, setOnlyIf, setProperty, setShouldRunAfter, shouldRunAfter, toString</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -292,8 +296,7 @@ method.</p></div>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>debug</h4>
-<pre><a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/tasks/Internal.html?is-external=true" title="class or interface in org.gradle.api.tasks">@Internal</a>
-public&nbsp;boolean debug</pre>
+<pre>public&nbsp;boolean debug</pre>
 </li>
 </ul>
 </li>
@@ -311,7 +314,7 @@ public&nbsp;boolean debug</pre>
 <li class="blockList">
 <h4>ImageGrinderTask</h4>
 <pre>@Inject
-public&nbsp;ImageGrinderTask(<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/workers.WorkerExecutor.html?is-external=true" title="class or interface in org.gradle">org.gradle.workers.WorkerExecutor</a>&nbsp;workerExecutor)</pre>
+public&nbsp;ImageGrinderTask(<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/workers.WorkerExecutor.html?is-external=true" title="class or interface in org.gradle">org.gradle.workers.WorkerExecutor</a>&nbsp;workerExecutor)</pre>
 </li>
 </ul>
 </li>
@@ -322,45 +325,16 @@ public&nbsp;ImageGrinderTask(<a href="https://docs.gradle.org/4.1/javadoc/org/gr
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="grinder-org.gradle.api.Action-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>grinder</h4>
-<pre>public&nbsp;void&nbsp;grinder(<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/Action.html?is-external=true" title="class or interface in org.gradle.api">Action</a>&lt;<a href="../../../../com/diffplug/gradle/imagegrinder/Img.html" title="class in com.diffplug.gradle.imagegrinder">Img</a>&lt;?&gt;&gt;&nbsp;grinder)</pre>
-</li>
-</ul>
-<a name="performAction-org.gradle.api.tasks.incremental.IncrementalTaskInputs-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>performAction</h4>
-<pre>public&nbsp;void&nbsp;performAction(<a href="https://docs.gradle.org/4.1/javadoc/org/gradle/api/tasks/incremental/IncrementalTaskInputs.html?is-external=true" title="class or interface in org.gradle.api.tasks.incremental">IncrementalTaskInputs</a>&nbsp;inputs)
-                   throws <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
-</dl>
-</li>
-</ul>
 <a name="getSrcDir--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getSrcDir</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;getSrcDir()</pre>
-</li>
-</ul>
-<a name="setSrcDir-java.io.File-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setSrcDir</h4>
-<pre>public&nbsp;void&nbsp;setSrcDir(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;srcDir)</pre>
+<pre><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/work.Incremental.html?is-external=true" title="class or interface in org.gradle">@Incremental</a>
+ <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/tasks/PathSensitive.html?is-external=true" title="class or interface in org.gradle.api.tasks">@PathSensitive</a>(<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/tasks/PathSensitive.html?is-external=true#value--" title="class or interface in org.gradle.api.tasks">value</a>=<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/tasks/PathSensitivity.html?is-external=true#RELATIVE" title="class or interface in org.gradle.api.tasks">RELATIVE</a>)
+ <a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/tasks/InputDirectory.html?is-external=true" title="class or interface in org.gradle.api.tasks">@InputDirectory</a>
+public abstract&nbsp;<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/file/DirectoryProperty.html?is-external=true" title="class or interface in org.gradle.api.file">DirectoryProperty</a>&nbsp;getSrcDir()</pre>
 </li>
 </ul>
 <a name="getDstDir--">
@@ -369,16 +343,31 @@ public&nbsp;ImageGrinderTask(<a href="https://docs.gradle.org/4.1/javadoc/org/gr
 <ul class="blockList">
 <li class="blockList">
 <h4>getDstDir</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;getDstDir()</pre>
+<pre><a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/tasks/OutputDirectory.html?is-external=true" title="class or interface in org.gradle.api.tasks">@OutputDirectory</a>
+public abstract&nbsp;<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/file/DirectoryProperty.html?is-external=true" title="class or interface in org.gradle.api.file">DirectoryProperty</a>&nbsp;getDstDir()</pre>
 </li>
 </ul>
-<a name="setDstDir-java.io.File-">
+<a name="grinder-org.gradle.api.Action-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setDstDir</h4>
-<pre>public&nbsp;void&nbsp;setDstDir(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;dstDir)</pre>
+<h4>grinder</h4>
+<pre>public&nbsp;void&nbsp;grinder(<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/api/Action.html?is-external=true" title="class or interface in org.gradle.api">Action</a>&lt;<a href="../../../../com/diffplug/gradle/imagegrinder/Img.html" title="class in com.diffplug.gradle.imagegrinder">Img</a>&lt;?&gt;&gt;&nbsp;grinder)</pre>
+</li>
+</ul>
+<a name="performAction-org.gradle.work.InputChanges-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>performAction</h4>
+<pre>public&nbsp;void&nbsp;performAction(<a href="https://docs.gradle.org/5.6/javadoc/org/gradle/work.InputChanges.html?is-external=true" title="class or interface in org.gradle">org.gradle.work.InputChanges</a>&nbsp;inputChanges)
+                   throws <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd>
+</dl>
 </li>
 </ul>
 <a name="getBumpThisNumberWhenTheGrinderChanges--">
@@ -442,7 +431,7 @@ if (!document.getElementById(cssId))
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderPlugin.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.ProcessFile.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../com/diffplug/gradle/imagegrinder/ImageGrinderTask.RenderSvg.html" title="class in com.diffplug.gradle.imagegrinder"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/diffplug/gradle/imagegrinder/ImageGrinderTask.html" target="_top">Frames</a></li>
