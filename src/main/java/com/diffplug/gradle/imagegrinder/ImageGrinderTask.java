@@ -28,6 +28,7 @@ import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.FileType;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.OutputDirectory;
@@ -69,6 +70,7 @@ import com.diffplug.common.collect.HashMultimap;
  * rendered, the filename that was written is saved to this map via the {@link Img#registerDstFile(String)}
  * method.
  */
+@CacheableTask
 public abstract class ImageGrinderTask extends DefaultTask {
 	private final WorkerExecutor workerExecutor;
 
