@@ -1,14 +1,18 @@
 plugins {
 	// markdown doclet
-	id 'org.jdrupes.mdoclet' version '1.0.3'
+	id 'org.jdrupes.mdoclet' version '1.0.5'
 	// github pages
-	id 'org.ajoberstar.git-publish' version '0.3.0'
+	id 'org.ajoberstar.git-publish' version '2.1.1'
 	// spotless
-	id 'com.diffplug.gradle.spotless' version '3.6.0'
+	id 'com.diffplug.gradle.spotless' version '3.24.1'
 	// bintray
-	id 'com.jfrog.bintray' version '1.7.3'
+	id 'com.jfrog.bintray' version '1.8.4'
 	// publish
-	id 'com.gradle.plugin-publish' version '0.9.7'
+	id 'com.gradle.plugin-publish' version '0.10.1'
+	// spotbugsMain
+	id 'com.github.spotbugs' version '2.0.0'
+	// dependencyUpdates
+	id 'com.github.ben-manes.versions' version '0.22.0'
 }
 
 apply plugin: 'java-gradle-plugin'
@@ -25,11 +29,11 @@ dependencies {
 	compile 'com.diffplug.durian:durian-collect:1.2.0'
 	compile 'com.diffplug.durian:durian-io:1.2.0'
 	// svg
-	compile 'org.apache.xmlgraphics:batik-rasterizer:1.9.1'
-	compile 'org.apache.xmlgraphics:batik-codec:1.9.1'
+	compile 'org.apache.xmlgraphics:batik-rasterizer:1.11'
+	compile 'org.apache.xmlgraphics:batik-codec:1.11'
 	// testing
 	testCompile 'junit:junit:4.12'
-	testCompile 'org.assertj:assertj-core:3.8.0'
+	testCompile 'org.assertj:assertj-core:3.13.2'
 }
 
 test {
@@ -65,6 +69,7 @@ tasks.eclipse.dependsOn(pluginUnderTestMetadata)
 ////////////
 spotless {
 	java {
+		target 'src/main/java/**/*.java', 'src/test/java/**/*.java'
 		licenseHeaderFile	'gradle/spotless.license.java'		// License header file
 		importOrderFile		'gradle/spotless.importorder'		// An import ordering file, exported from Eclipse
 		eclipse().configFile'gradle/spotless.eclipseformat.xml'	// XML file dumped out by the Eclipse formatter
@@ -87,18 +92,17 @@ spotless {
 //////////////
 // FINDBUGS //
 //////////////
-apply plugin: 'findbugs'
-findbugs {
-	toolVersion = '3.0.1'
+spotbugs {
+	toolVersion = '3.1.6'
 	sourceSets = [sourceSets.main]	// don't check the test code
 	ignoreFailures = false 	// bug free or it doesn't ship!
-	reportsDir = file('build/findbugs')
+	reportsDir = file('build/spotbugs')
 	effort = 'max'			// min|default|max
 	reportLevel = 'medium'	// low|medium|high (low = sensitive to even minor mistakes)
 	omitVisitors = []		// bugs that we want to ignore
 }
 // HTML instead of XML
-tasks.withType(FindBugs) {
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
 	reports {
 		xml.enabled = false
 		html.enabled = true
