@@ -43,7 +43,7 @@ public class GradleHarness extends ResourceHarness {
 		Set<String> logged = new HashSet<>();
 		for (String line : lines) {
 			line = line.replace("\r", "");
-			if (line.startsWith("outOfDate: ") || line.startsWith("removed: ")) {
+			if (line.startsWith("render: ") || line.startsWith("clean: ")) {
 				logged.add(line);
 			}
 		}
