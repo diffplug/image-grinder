@@ -119,8 +119,8 @@ public class ImageGrinderTask extends DefaultTask {
 				remove(outOfDate.getFile());
 			}
 			queue.submit(RenderSvg.class, params -> {
-				params.sourceFile().set(outOfDate.getFile());
-				params.taskRef().set(SerializableRef.create(ImageGrinderTask.this));
+				params.getSourceFile().set(outOfDate.getFile());
+				params.getTaskRef().set(SerializableRef.create(ImageGrinderTask.this));
 			});
 		});
 		inputs.removed(removed -> {
@@ -156,17 +156,17 @@ public class ImageGrinderTask extends DefaultTask {
 		}
 	}
 
-	public interface Params extends WorkParameters {
-		RegularFileProperty sourceFile();
+	public interface RenderSvgParams extends WorkParameters {
+		RegularFileProperty getSourceFile();
 
-		Property<SerializableRef<ImageGrinderTask>> taskRef();
+		Property<SerializableRef<ImageGrinderTask>> getTaskRef();
 	}
 
-	public static abstract class RenderSvg implements WorkAction<Params> {
+	public static abstract class RenderSvg implements WorkAction<RenderSvgParams> {
 		@Override
 		public void execute() {
-			File sourceFile = getParameters().sourceFile().get().getAsFile();
-			ImageGrinderTask task = getParameters().taskRef().get().value();
+			File sourceFile = getParameters().getSourceFile().get().getAsFile();
+			ImageGrinderTask task = getParameters().getTaskRef().get().value();
 			Subpath subpath = Subpath.from(task.srcDir, sourceFile);
 			Img<?> img;
 			switch (subpath.extension()) {
