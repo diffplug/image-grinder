@@ -125,11 +125,11 @@ public abstract class ImageGrinderTask extends DefaultTask {
 			boolean modifiedOrRemoved = fileChange.getChangeType() == ChangeType.MODIFIED || fileChange.getChangeType() == ChangeType.REMOVED;
 			boolean modifiedOrAdded = fileChange.getChangeType() == ChangeType.MODIFIED || fileChange.getChangeType() == ChangeType.ADDED;
 			if (modifiedOrRemoved) {
-				logger.info("removing: " + fileChange.getNormalizedPath());
+				logger.info("clean: " + fileChange.getNormalizedPath());
 				remove(fileChange.getFile());
 			}
 			if (modifiedOrAdded) {
-				logger.info("submitted to render:" + fileChange.getNormalizedPath());
+				logger.info("render: " + fileChange.getNormalizedPath());
 				queue.submit(RenderSvg.class, params -> {
 					params.getSourceFile().set(fileChange.getFile());
 					params.getTaskRef().set(SerializableRef.create(ImageGrinderTask.this));
