@@ -46,7 +46,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.diffplug.common.collect.HashMultimap;
-import com.diffplug.gradle.imagegrinder.ImageGrinderTask.RenderSvg;
 
 /**
  * See [README.md](https://github.com/diffplug/image-grinder) for usage instructions.
@@ -121,10 +120,13 @@ public abstract class ImageGrinderTask extends DefaultTask {
 			if (fileChange.getFileType() == FileType.DIRECTORY) {
 				continue;
 			}
-			if (fileChange.getChangeType() == ChangeType.REMOVED) {
-				logger.info("removed: " + fileChange.getNormalizedPath());
+			boolean modifiedOrRemoved = fileChange.getChangeType() == ChangeType.MODIFIED || fileChange.getChangeType() == ChangeType.REMOVED;
+			boolean modifiedOrAdded = fileChange.getChangeType() == ChangeType.MODIFIED || fileChange.getChangeType() == ChangeType.ADDED;
+			if (modifiedOrRemoved) {
+				logger.info("removing: " + fileChange.getNormalizedPath());
 				remove(fileChange.getFile());
-			} else {
+			}
+			if (modifiedOrAdded) {
 				logger.info("submitted to render:" + fileChange.getNormalizedPath());
 				queue.submit(RenderSvg.class, params -> {
 					params.getSourceFile().set(fileChange.getFile());
