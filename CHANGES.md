@@ -1,6 +1,8 @@
 # ImageGrinder
 
 ## [Unreleased]
+
+## [2.1.0] - 2020-01-24
 ### Changed
 - Plugin id is now `com.diffplug.image-grinder` ([reasoning](https://dev.to/nedtwigg/names-in-java-maven-and-gradle-2fm2#gradle-plugin-id)).
     - You can still use the legacy `com.diffplug.gradle.image-grinder` if you want, but you'll get a deprecation warning.
