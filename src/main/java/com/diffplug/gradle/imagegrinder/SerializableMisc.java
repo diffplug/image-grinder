@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 DiffPlug
+ * Copyright 2020 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,6 +15,10 @@
  */
 package com.diffplug.gradle.imagegrinder;
 
+
+import com.diffplug.common.base.Errors;
+import com.diffplug.common.base.Preconditions;
+import com.diffplug.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,10 +26,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-
-import com.diffplug.common.base.Errors;
-import com.diffplug.common.base.Preconditions;
-import com.diffplug.common.io.Files;
 
 class SerializableMisc {
 	static void toFile(Serializable obj, File file) {

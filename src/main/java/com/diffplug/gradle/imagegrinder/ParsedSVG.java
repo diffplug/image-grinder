@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 DiffPlug
+ * Copyright 2020 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,6 +15,9 @@
  */
 package com.diffplug.gradle.imagegrinder;
 
+
+import com.diffplug.common.base.Errors;
+import com.diffplug.common.io.Files;
 import java.awt.RenderingHints;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -22,7 +25,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.gvt.renderer.ImageRenderer;
 import org.apache.batik.gvt.renderer.StaticRenderer;
@@ -36,9 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
-
-import com.diffplug.common.base.Errors;
-import com.diffplug.common.io.Files;
 
 public class ParsedSVG implements Size.Has {
 	public static ParsedSVG parse(File file) {

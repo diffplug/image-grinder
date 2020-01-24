@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 DiffPlug
+ * Copyright 2020 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,6 +15,8 @@
  */
 package com.diffplug.gradle.imagegrinder;
 
+
+import com.diffplug.common.base.Errors;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,10 +25,7 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
-
 import javax.annotation.Nullable;
-
-import com.diffplug.common.base.Errors;
 
 /**
  * Implements equality, hashcode, and serialization entirely in terms
