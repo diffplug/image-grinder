@@ -17,10 +17,40 @@ package com.diffplug.gradle.imagegrinder;
 
 
 import java.io.IOException;
+import org.assertj.core.api.Assertions;
+import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.TaskOutcome;
 import org.junit.Test;
 
 public class ImageGrinderPluginTest extends GradleHarness {
+	@Test
+	public void testDeprecated() throws Exception {
+		write("build.gradle",
+				"plugins {",
+				"    id 'com.diffplug.gradle.image-grinder'",
+				"}",
+				"imageGrinder {",
+				"  eclipseSvg {",
+				"    srcDir = file('src')",
+				"    dstDir = file('dst')",
+				"    bumpThisNumberWhenTheGrinderChanges = 1",
+				"    grinder { img ->",
+				"        img.render('.png')",
+				"        img.render('@2x.png', 2)",
+				"    }",
+				"  }",
+				"}");
+		write("src/refresh.svg", readTestResource("refresh.svg"));
+
+		BuildResult result = gradleRunner().withArguments("eclipseSvg", "--stacktrace", "--info").build();
+		Assertions.assertThat(result.getOutput().replace("\r", ""))
+				.contains(
+						"  plugin id 'com.diffplug.gradle.image-grinder' has been deprecated\n" +
+								"replaced by 'com.diffplug.image-grinder'\n" +
+								"A simple find-replace will fix it.  Here is why we moved: https://dev.to/nedtwigg/names-in-java-maven-and-gradle-2fm2#gradle-plugin-id");
+		ParsedSVGTest.assertEqual(file("dst/refresh.png"), "refresh16.png");
+		ParsedSVGTest.assertEqual(file("dst/refresh@2x.png"), "refresh32.png");
+	}
 
 	private void writeBuild() throws IOException {
 		writeBuildWithBump(1);
@@ -30,7 +60,7 @@ public class ImageGrinderPluginTest extends GradleHarness {
 		String bumpLine = bump == null ? "" : "    bumpThisNumberWhenTheGrinderChanges = " + bump;
 		write("build.gradle",
 				"plugins {",
-				"    id 'com.diffplug.gradle.image-grinder'",
+				"    id 'com.diffplug.image-grinder'",
 				"}",
 				"imageGrinder {",
 				"  eclipseSvg {",
