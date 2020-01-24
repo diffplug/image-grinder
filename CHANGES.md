@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ### Changed
+- Plugin id is now `com.diffplug.image-grinder`.
+    - You can still use the legacy `com.diffplug.gradle.image-grinder` if you want.
 - Upgraded Batik from `1.11` to `1.12`.
 - Upgraded build to [blowdryer](https://github.com/diffplug/blowdryer).
 

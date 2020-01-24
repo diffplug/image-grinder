@@ -28,6 +28,7 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
+		project.getPlugins().apply(Legacy.class);
 		project.getExtensions().add(NAME, project.container(ImageGrinderTask.class, new NamedDomainObjectFactory<ImageGrinderTask>() {
 			@Override
 			public ImageGrinderTask create(String name) {
@@ -39,5 +40,13 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 				return task;
 			}
 		}));
+	}
+
+	/** The legacy `com.diffplug.gradle.image-grinder`, does exactly the same thing as `com.diffplug.image-grinder`. */
+	public static class Legacy implements Plugin<Project> {
+		@Override
+		public void apply(Project project) {
+			project.getPlugins().apply(ImageGrinderPlugin.class);
+		}
 	}
 }
