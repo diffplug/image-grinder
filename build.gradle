@@ -5,6 +5,7 @@ plugins {
 
 spotlessChangelog {
 	changelogFile 'CHANGES.md'
+	ifFoundBumpAdded '### Added', '### Changed'
 }
 apply from: 干.file('base/changelog.gradle')
 apply from: 干.file('spotless/freshmark.gradle')

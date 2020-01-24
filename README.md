@@ -2,7 +2,7 @@
 
 <!---freshmark shields
 output = [
-    link(shield('Gradle plugin', 'plugins.gradle.org', 'com.diffplug.gradle.image-grinder', 'blue'), 'https://plugins.gradle.org/plugin/com.diffplug.gradle.image-grinder'),
+    link(shield('Gradle plugin', 'plugins.gradle.org', 'com.diffplug.image-grinder', 'blue'), 'https://plugins.gradle.org/plugin/com.diffplug.image-grinder'),
     link(shield('Maven central', 'mavencentral', 'available', 'blue'), 'https://search.maven.org/artifact/com.diffplug.gradle/image-grinder'),
     link(shield('Apache 2.0', 'license', 'apache-2.0', 'blue'), 'https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)'),
     '',
@@ -12,7 +12,7 @@ output = [
     link(image('JitCI', 'https://jitci.com/gh/diffplug/image-grinder/svg'), 'https://jitci.com/gh/diffplug/image-grinder')
     ].join('\n');
 -->
-[![Gradle plugin](https://img.shields.io/badge/plugins.gradle.org-com.diffplug.gradle.image--grinder-blue.svg)](https://plugins.gradle.org/plugin/com.diffplug.gradle.image-grinder)
+[![Gradle plugin](https://img.shields.io/badge/plugins.gradle.org-com.diffplug.image--grinder-blue.svg)](https://plugins.gradle.org/plugin/com.diffplug.image-grinder)
 [![Maven central](https://img.shields.io/badge/mavencentral-available-blue.svg)](https://search.maven.org/artifact/com.diffplug.gradle/image-grinder)
 [![Apache 2.0](https://img.shields.io/badge/license-apache--2.0-blue.svg)](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0))
 
@@ -28,7 +28,7 @@ output = prefixDelimiterReplace(input, 'https://javadoc.io/static/com.diffplug.g
 
 ## Simple image processing
 
-To use it, just [add image-grinder to your buildscript](https://plugins.gradle.org/plugin/com.diffplug.gradle.image-grinder), and configure it as so:
+To use it, just [add image-grinder to your buildscript](https://plugins.gradle.org/plugin/com.diffplug.image-grinder), and configure it as so:
 
 ```groovy
 imageGrinder {

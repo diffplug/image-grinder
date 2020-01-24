@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ### Changed
+- Plugin id is now `com.diffplug.image-grinder` ([reasoning](https://dev.to/nedtwigg/names-in-java-maven-and-gradle-2fm2#gradle-plugin-id)).
+    - You can still use the legacy `com.diffplug.gradle.image-grinder` if you want, but you'll get a deprecation warning.
 - Upgraded Batik from `1.11` to `1.12`.
 - Upgraded build to [blowdryer](https://github.com/diffplug/blowdryer).
 

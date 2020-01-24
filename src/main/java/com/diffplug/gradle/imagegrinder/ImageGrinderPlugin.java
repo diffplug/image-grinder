@@ -28,6 +28,7 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
+		project.getPlugins().apply(Legacy.class);
 		project.getExtensions().add(NAME, project.container(ImageGrinderTask.class, new NamedDomainObjectFactory<ImageGrinderTask>() {
 			@Override
 			public ImageGrinderTask create(String name) {
@@ -39,5 +40,16 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 				return task;
 			}
 		}));
+	}
+
+	/** The legacy `com.diffplug.gradle.image-grinder`, does exactly the same thing as `com.diffplug.image-grinder`. */
+	public static class Legacy implements Plugin<Project> {
+		@Override
+		public void apply(Project project) {
+			project.getPlugins().apply(ImageGrinderPlugin.class);
+			System.out.println("  plugin id 'com.diffplug.gradle.image-grinder' has been deprecated");
+			System.out.println("replaced by 'com.diffplug.image-grinder'");
+			System.out.println("A simple find-replace will fix it.  Here is why we moved: https://dev.to/nedtwigg/names-in-java-maven-and-gradle-2fm2#gradle-plugin-id");
+		}
 	}
 }
