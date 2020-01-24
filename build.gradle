@@ -1,19 +1,13 @@
 plugins {
-	// markdown doclet
-	id 'org.jdrupes.mdoclet' version '1.0.5'
-	// github pages
-	id 'org.ajoberstar.git-publish' version '2.1.1'
-	// spotless
-	id 'com.diffplug.gradle.spotless' version '3.24.2'
-	// bintray
-	id 'com.jfrog.bintray' version '1.8.4'
-	// publish
-	id 'com.gradle.plugin-publish' version '0.10.1'
-	// spotbugsMain
-	id 'com.github.spotbugs' version '2.0.0'
-	// dependencyUpdates
-	id 'com.github.ben-manes.versions' version '0.22.0'
+	id 'com.diffplug.blowdryer'
+	id 'com.diffplug.spotless-changelog'
 }
+
+spotlessChangelog {
+	changelogFile 'CHANGES.md'
+}
+apply from: 干.file('base/changelog.gradle')
+apply from: 干.file('spotless/freshmark.gradle')
 
 apply plugin: 'java-gradle-plugin'
 sourceCompatibility = '1.8'
@@ -67,6 +61,7 @@ tasks.eclipse.dependsOn(pluginUnderTestMetadata)
 ////////////
 // FORMAT //
 ////////////
+apply plugin: 'com.diffplug.gradle.spotless'
 spotless {
 	java {
 		target 'src/main/java/**/*.java', 'src/test/java/**/*.java'
@@ -81,209 +76,30 @@ spotless {
 		trimTrailingWhitespace()
 		endWithNewline()
 	}
-	freshmark {
-		target '*.md'
-		propertiesFile('gradle.properties')
-		indentWithSpaces(4)
-		trimTrailingWhitespace()
-		endWithNewline()
-	}
 }
 
-//////////////
-// FINDBUGS //
-//////////////
-spotbugs {
-	toolVersion = '3.1.6'
-	sourceSets = [sourceSets.main]	// don't check the test code
-	ignoreFailures = false 	// bug free or it doesn't ship!
-	reportsDir = file('build/spotbugs')
-	effort = 'max'			// min|default|max
-	reportLevel = 'medium'	// low|medium|high (low = sensitive to even minor mistakes)
-	omitVisitors = []		// bugs that we want to ignore
-}
-// HTML instead of XML
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
-	reports {
-		xml.enabled = false
-		html.enabled = true
-	}
-}
 // we'll want the findbugs annotations (they don't have a 3.0.1 version)
 dependencies {
 	compile 'com.google.code.findbugs:annotations:3.0.0'
 	compile 'com.google.code.findbugs:jsr305:3.0.0'
 }
 
-///////////
-// MAVEN //
-///////////
-apply plugin: 'maven-publish'
 
-task sourcesJar(type: Jar) {
-	classifier = 'sources'
-	from sourceSets.main.allJava
-}
 
-// use markdown in javadoc
-def makeLink = { url, text -> "<a href=\"${url}\" style=\"text-transform: none;\">${text}</a>" }
-def javadocInfo = '<h2>' + makeLink("https://github.com/${org}/${name}", "${group}:${name}:${version}") +
-' by ' + makeLink('http://www.diffplug.com', 'DiffPlug') + '</h2>'
-
-def verSnapshot = { it.endsWith('-SNAPSHOT') ? 'snapshot' : it }
-
-javadoc {
-	// Where it's possible to name parameters and methods clearly enough
-	// that javadoc is not necessary, why make the code bigger?
-	//
-	// Thus, no javadoc warnings.
-	options.addStringOption('Xdoclint:none')
-	options.noTimestamp()
-	// setup the header
-	options.header javadocInfo
-	options.footer javadocInfo
-	// setup links
-	options.linksOffline('https://docs.oracle.com/javase/8/docs/api/', 'gradle/javadoc/java8')
-	options.linksOffline("https://docs.gradle.org/${gradle.gradleVersion}/javadoc/", 'gradle/javadoc/gradle')
-	options.linksOffline("https://diffplug.github.io/durian/javadoc/1.2.0}/", 'gradle/javadoc/durian')
-}
+//	options.linksOffline('https://docs.oracle.com/javase/8/docs/api/', 'gradle/javadoc/java8')
+//	options.linksOffline("https://docs.gradle.org/${gradle.gradleVersion}/javadoc/", 'gradle/javadoc/gradle')
+//	options.linksOffline("https://diffplug.github.io/durian/javadoc/1.2.0}/", 'gradle/javadoc/durian')
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
 	classifier = 'javadoc'
 	from javadoc.destinationDir
 }
 
-////////////////
-// PUBLISHING //
-////////////////
-def isSnapshot = project.version.endsWith('-SNAPSHOT')
-// pulls the credentials from either the environment variable or gradle.properties
-def cred = {
-	if (System.env[it] != null) {
-		return System.env[it]
-	} else if (project.hasProperty(it)) {
-		return project[it]
-	} else {
-		return 'unknown_' + it
-	}
-}
-
-model { publishing {
-	publications {
-		pluginMaven {
-			artifact sourcesJar
-			artifact javadocJar
-			pom.withXml {
-				// findbugs annotations should have scope "provided"
-				asNode().dependencies.'*'.findAll() { it.groupId.text() == 'com.google.code.findbugs' }.each() { it.scope*.value = 'provided' }
-				// add MavenCentral requirements to the POM
-				asNode().children().last() + {
-					resolveStrategy = Closure.DELEGATE_FIRST
-					name project.name
-					description project.description
-					url "https://github.com/${project.org}/${project.name}"
-					scm {
-						url "https://github.com/${project.org}/${project.name}"
-						connection "scm:git:git://github.com/${project.org}/${project.name}"
-						developerConnection "scm:git:ssh:git@github.com/${project.org}/${project.name}"
-					}
-					licenses {
-						license {
-							name 'The Apache Software License, Version 2.0'
-							url 'http://www.apache.org/license/LICENSE-2.0.txt'
-							distribution 'repo'
-						}
-					}
-					developers {
-						developer {
-							id 'nedtwigg'
-							name 'Ned Twigg'
-							email 'ned.twigg@diffplug.com'
-						}
-					}
-				}
-			}
-		}
-	}
-	if (isSnapshot) {
-		// upload snapshots to oss.sonatype.org
-		repositories { maven {
-			url = 'https://oss.sonatype.org/content/repositories/snapshots'
-			credentials {
-				username = cred('nexus_user')
-				password = cred('nexus_pass')
-			}
-		} }
-	}
-} }
-
-if (!isSnapshot) {
-	////////////////////
-	// BINTRAY UPLOAD //
-	////////////////////
-	apply plugin: 'com.jfrog.bintray'
-	bintray {
-		user = cred('bintray_user')
-		key = cred('bintray_pass')
-		publications = ['pluginMaven']
-		publish = true
-		pkg {
-			repo = 'opensource'
-			name = project.name
-			userOrg = project.org
-			version {
-				name = project.version
-				mavenCentralSync {
-					user = cred('nexus_user')
-					password = cred('nexus_pass')
-				}
-			}
-		}
-	}
-	publish.dependsOn(bintrayUpload)
-	bintrayUpload.dependsOn(['generatePomFileForPluginMavenPublication', jar, sourcesJar, javadocJar])
-}
-
-//////////////////////////
-// GRADLE PLUGIN PORTAL //
-//////////////////////////
-apply plugin: "com.gradle.plugin-publish"
-pluginBundle {
-	// These settings are set for the whole plugin bundle
-	website = "https://github.com/${project.org}/${project.name}"
-	vcsUrl = "https://github.com/${project.org}/${project.name}"
-
-	plugins {
-		imageGrinderPlugin {
-			id = 'com.diffplug.gradle.image-grinder'
-			displayName = 'ImageGrinder'
-			description = "Image manipulation for Gradle"
-			tags = ['image', 'svg', 'png']
-		}
-	}
-
-	mavenCoordinates {
-		groupId = project.group
-		artifactId = project.name
-		version = project.version
-	}
-}
-// the gradle plugin portal isn't really compatible with SNAPSHOT versions
-// https://discuss.gradle.org/t/uploading-snapshot-versions-to-the-plugin-portal/11347
-if (isSnapshot) {
-	publishPlugins.enabled = false
-}
-
-//////////////////
-// GITHUB PAGES //
-//////////////////
-gitPublish {
-	repoUri = "https://github.com/${project.org}/${project.name}"
-	branch = 'gh-pages'
-	preserve { include '**/*' }
-	contents {
-		from javadoc.destinationDir
-		into "javadoc/${verSnapshot(version)}"
-	}
-}
-tasks.gitPublishCopy.dependsOn(":javadoc")
+//			id = 'com.diffplug.gradle.image-grinder'
+//			displayName = 'ImageGrinder'
+//			description = "Image manipulation for Gradle"
+// plugins {
+// 	imageGrinderPlugin {
+// 		tags = ['image', 'svg', 'png']
+// 	}
+// }
