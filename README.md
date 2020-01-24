@@ -49,13 +49,13 @@ imageGrinder {
 
 Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://javadoc.io/static/com.diffplug.gradle/image-grinder/2.0.2/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
 
-ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/4.1/userguide/custom_tasks.html#worker_api) introduced in Gradle 4.1 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/4.1/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required.
+ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/5.6/userguide/custom_tasks.html#worker_api) introduced in Gradle 5.6 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/5.6/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required.
 
 ## Limitations
 
 - ImageGrinder can only read SVG images.
 - ImageGrinder can only write PNG images.
-- ImageGrinder needs Gradle 4.1 or higher.
+- ImageGrinder needs Gradle 5.6 or higher.
 
 Not much of a grinder, but it does everything we needed.  If you need more, we're [happy to take PR's](CONTRIBUTING.md)!
 
