@@ -24,12 +24,12 @@ dependencies {
 	implementation 'com.diffplug.durian:durian-collect:1.2.0'
 	implementation 'com.diffplug.durian:durian-io:1.2.0'
 	// svg
-	implementation 'org.apache.xmlgraphics:batik-rasterizer:1.11'
-	implementation 'org.apache.xmlgraphics:batik-codec:1.11'
+	implementation 'org.apache.xmlgraphics:batik-rasterizer:1.12'
+	implementation 'org.apache.xmlgraphics:batik-codec:1.12'
 	// testing
-	testImplementation 'junit:junit:4.12'
-	testImplementation 'org.assertj:assertj-core:3.13.2'
+	testImplementation 'junit:junit:4.13'
+	testImplementation 'org.assertj:assertj-core:3.14.0'
 	// we'll want the findbugs annotations (they don't have a 3.0.1 version)
-	compileOnly 'com.google.code.findbugs:annotations:3.0.0'
-	compileOnly 'com.google.code.findbugs:jsr305:3.0.0'
+	compileOnly 'com.google.code.findbugs:annotations:3.0.1'
+	compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
 }

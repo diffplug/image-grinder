@@ -1,6 +1,9 @@
 # ImageGrinder
 
 ## [Unreleased]
+### Changed
+- Upgraded Batik from `1.11` to `1.12`.
+- Upgraded build to [blowdryer](https://github.com/diffplug/blowdryer).
 
 ## [2.0.2] - 2019-08-19
 - Now uses the new Worker API introduced in `5.6`, no longer uses the Worker API scheduled to be deprecated in `6.0` ([#2](https://github.com/diffplug/image-grinder/pull/2))
