@@ -50,8 +50,8 @@ public class ImageGrinderPluginTest extends GradleHarness {
 		writeBuild();
 		write("src/refresh.svg", readTestResource("refresh.svg"));
 		runAndAssert(TaskOutcome.SUCCESS);
-		assertFile("dst/refresh.png").hasBinaryContent(readTestResource("refresh16.png"));
-		assertFile("dst/refresh@2x.png").hasBinaryContent(readTestResource("refresh32.png"));
+		ParsedSVGTest.assertEqual(file("dst/refresh.png"), "refresh16.png");
+		ParsedSVGTest.assertEqual(file("dst/refresh@2x.png"), "refresh32.png");
 	}
 
 	@Test
