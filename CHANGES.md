@@ -1,6 +1,8 @@
 # ImageGrinder
 
 ## [Unreleased]
+### Fixed
+- Improved deprecation warning message.
 
 ## [2.1.0] - 2020-01-24
 ### Changed
