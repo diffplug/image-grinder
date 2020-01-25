@@ -42,13 +42,10 @@ public class ImageGrinderPluginTest extends GradleHarness {
 				"}");
 		write("src/refresh.svg", readTestResource("refresh.svg"));
 
-		BuildResult result = gradleRunner().withArguments("eclipseSvg", "--stacktrace", "--info").build();
+		BuildResult result = gradleRunner().withArguments("eclipseSvg", "--warning-mode", "all").build();
+		System.out.println(result.getOutput().replace("\r", ""));
 		Assertions.assertThat(result.getOutput().replace("\r", ""))
-				.contains(
-						"  plugin id 'com.diffplug.gradle.image-grinder' has been deprecated\n" +
-								"replaced by 'com.diffplug.image-grinder'\n" +
-								"A simple find-replace will fix it.  Here is why we moved: https://dev.to/nedtwigg/names-in-java-maven-and-gradle-2fm2#gradle-plugin-id");
-		ParsedSVGTest.assertEqual(file("dst/refresh.png"), "refresh16.png");
+				.contains("The com.diffplug.gradle.image-grinder plugin has been deprecated. This is scheduled to be removed in Gradle 6.0. Please use the com.diffplug.image-grinder plugin instead.");
 		ParsedSVGTest.assertEqual(file("dst/refresh@2x.png"), "refresh32.png");
 	}
 
