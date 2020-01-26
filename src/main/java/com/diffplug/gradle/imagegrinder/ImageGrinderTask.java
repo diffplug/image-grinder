@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * 
  * ## Tedious thing #1: Worker bypass
  * 
- * Worker requires that all arguments to its worker runnables ({@link ProcessFile}
+ * Worker requires that all arguments to its worker runnables ({@link ImageGrinderTask}
  * in this case) be Serializable.  There's no way to serialize our {@link #grinder(Action)}, so we had
  * to use {@link SerializableRef} to sneakily pass our task to the worker.
  * 
