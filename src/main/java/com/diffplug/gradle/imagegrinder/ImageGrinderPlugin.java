@@ -29,7 +29,6 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 	@Override
 	public void apply(Project project) {
 		LegacyPlugin.applyForCompat(project, Legacy.class);
-		project.getPlugins().apply(Legacy.class);
 		project.getExtensions().add(NAME, project.container(ImageGrinderTask.class, new NamedDomainObjectFactory<ImageGrinderTask>() {
 			@Override
 			public ImageGrinderTask create(String name) {

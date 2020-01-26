@@ -1,6 +1,7 @@
 # ImageGrinder
 
 ## [Unreleased]
+- Fixed deprecation warning for multi-project parallel builds.
 
 ## [2.1.1] - 2020-01-25
 ### Fixed
