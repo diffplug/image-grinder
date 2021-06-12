@@ -51,6 +51,26 @@ Every single file in `srcDir` needs to be an image that ImageGrinder can parse. 
 
 ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/5.6/userguide/custom_tasks.html#worker_api) introduced in Gradle 5.6 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/5.6/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required.
 
+## Configuration avoidance
+
+The plugin creates tasks eagerly. If you wish to avoid this, you can rewrite the example above like this:
+
+```gradle
+def processEclipseSvg = tasks.register('processEclipseSvg', com.diffplug.gradle.imagegrinder.ImageGrinderTask) {
+    srcDir = file('src')
+    dstDir = file('dst')
+    grinder { img ->
+        img.render('.png')
+        img.render('@2x.png', 2)
+    }
+    // used for up-to-date checking, bump this if the function above changes
+    bumpThisNumberWhenTheGrinderChanges = 1
+}
+tasks.named(JavaPlugin.PROCESS_RESOURCES_TASK_NAME) {
+  dependsOn processSvg
+}
+```
+
 ## Limitations
 
 - ImageGrinder can only read SVG images.
