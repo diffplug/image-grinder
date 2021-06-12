@@ -19,8 +19,8 @@ package com.diffplug.gradle.imagegrinder;
 import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.tasks.TaskProvider;
 
 /** See [README.md](https://github.com/diffplug/image-grinder) for usage instructions. */
 public class ImageGrinderPlugin implements Plugin<Project> {
@@ -29,13 +29,18 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 	@Override
 	public void apply(Project project) {
 		LegacyPlugin.applyForCompat(project, Legacy.class);
-		project.getExtensions().add(NAME, project.container(ImageGrinderTask.class, new NamedDomainObjectFactory<ImageGrinderTask>() {
+		project.getExtensions().add(NAME, project.container(ImageGrinderTaskApi.class, new NamedDomainObjectFactory<ImageGrinderTaskApi>() {
 			@Override
-			public ImageGrinderTask create(String name) {
+			public ImageGrinderTaskApi create(String name) {
+				ImageGrinderTaskApi.
+				project.getTasks().register(name, ImageGrinderTask.class, task -> {
+					
+				});
 				ImageGrinderTask task = project.getTasks().create(name, ImageGrinderTask.class);
 				if (name.startsWith("process")) {
-					Task processResources = project.getTasks().getByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME);
-					processResources.dependsOn(task);
+					project.getTasks().named(JavaPlugin.PROCESS_RESOURCES_TASK_NAME, processResources -> {
+						processResources.dependsOn(provider);
+					});
 				}
 				return task;
 			}

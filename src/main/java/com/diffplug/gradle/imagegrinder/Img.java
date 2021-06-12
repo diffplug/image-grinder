@@ -81,10 +81,10 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 	}
 
 	File registerDstFile(String fullPath) {
-		File file = new File(task.getDstDir().getAsFile().get(), fullPath);
+		File file = new File(task.api.getDstDir().getAsFile().get(), fullPath);
 		FileMisc.mkdirs(file.getParentFile());
 		synchronized (task.map) {
-			task.map.put(new File(task.getSrcDir().getAsFile().get(), subpath.full()), file);
+			task.map.put(new File(task.api.getSrcDir().getAsFile().get(), subpath.full()), file);
 		}
 		return file;
 	}
