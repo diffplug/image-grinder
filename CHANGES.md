@@ -1,8 +1,11 @@
 # ImageGrinder
 
 ## [Unreleased]
+### Fixed
+- Bumped batik from 1.12 to 1.14
 
 ## [2.1.2] - 2020-01-26
+### Fixed
 - Fixed deprecation warning for multi-project parallel builds.
 
 ## [2.1.1] - 2020-01-25
