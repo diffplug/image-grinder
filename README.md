@@ -9,7 +9,7 @@ output = [
     link(shield('Changelog', 'changelog', versionLast, 'brightgreen'), 'CHANGELOG.md'),
     link(shield('Javadoc', 'javadoc', 'yes', 'brightgreen'), 'https://javadoc.io/doc/com.diffplug.gradle/image-grinder/{{versionLast}}/index.html'),
     link(shield('Live chat', 'gitter', 'chat', 'brightgreen'), 'https://gitter.im/diffplug/image-grinder'),
-    link(image('JitCI', 'https://jitci.com/gh/diffplug/image-grinder/svg'), 'https://jitci.com/gh/diffplug/image-grinder')
+    link(image('CircleCI', 'https://circleci.com/gh/diffplug/image-grinder.svg?style=shield'), 'https://circleci.com/gh/diffplug/image-grinder')
     ].join('\n');
 -->
 [![Gradle plugin](https://img.shields.io/badge/plugins.gradle.org-com.diffplug.image--grinder-blue.svg)](https://plugins.gradle.org/plugin/com.diffplug.image-grinder)
@@ -19,7 +19,7 @@ output = [
 [![Changelog](https://img.shields.io/badge/changelog-2.1.3-brightgreen.svg)](CHANGELOG.md)
 [![Javadoc](https://img.shields.io/badge/javadoc-yes-brightgreen.svg)](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.1.3/index.html)
 [![Live chat](https://img.shields.io/badge/gitter-chat-brightgreen.svg)](https://gitter.im/diffplug/image-grinder)
-[![JitCI](https://jitci.com/gh/diffplug/image-grinder/svg)](https://jitci.com/gh/diffplug/image-grinder)
+[![CircleCI](https://circleci.com/gh/diffplug/image-grinder.svg?style=shield)](https://circleci.com/gh/diffplug/image-grinder)
 <!---freshmark /shields -->
 
 <!---freshmark javadoc
