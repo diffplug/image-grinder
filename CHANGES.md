@@ -1,6 +1,8 @@
 # ImageGrinder
 
 ## [Unreleased]
+
+## [2.1.3] - 2021-06-12
 ### Fixed
 - Bumped batik from 1.12 to 1.14
 
