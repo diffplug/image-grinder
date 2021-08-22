@@ -23,7 +23,7 @@ output = [
 <!---freshmark /shields -->
 
 <!---freshmark javadoc
-output = prefixDelimiterReplace(input, 'https://javadoc.io/static/com.diffplug.gradle/image-grinder/', '/', versionLast);
+output = prefixDelimiterReplace(input, 'https://javadoc.io/doc/com.diffplug.gradle/image-grinder/', '/', versionLast);
 -->
 
 ## Simple image processing
@@ -47,7 +47,7 @@ imageGrinder {
 }
 ```
 
-Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://javadoc.io/static/com.diffplug.gradle/image-grinder/2.1.3/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
+Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.1.3/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
 
 ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/5.6/userguide/custom_tasks.html#worker_api) introduced in Gradle 5.6 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/5.6/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required.
 
