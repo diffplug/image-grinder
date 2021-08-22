@@ -6,7 +6,7 @@ output = [
     link(shield('Maven central', 'mavencentral', 'available', 'blue'), 'https://search.maven.org/artifact/com.diffplug.gradle/image-grinder'),
     link(shield('Apache 2.0', 'license', 'apache-2.0', 'blue'), 'https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)'),
     '',
-    link(shield('Changelog', 'changelog', versionLast, 'brightgreen'), 'CHANGELOG.md'),
+    link(shield('Changelog', 'changelog', versionLast, 'brightgreen'), 'CHANGES.md'),
     link(shield('Javadoc', 'javadoc', 'yes', 'brightgreen'), 'https://javadoc.io/doc/com.diffplug.gradle/image-grinder/{{versionLast}}/index.html'),
     link(shield('Live chat', 'gitter', 'chat', 'brightgreen'), 'https://gitter.im/diffplug/image-grinder'),
     link(image('CircleCI', 'https://circleci.com/gh/diffplug/image-grinder.svg?style=shield'), 'https://circleci.com/gh/diffplug/image-grinder')
@@ -16,7 +16,7 @@ output = [
 [![Maven central](https://img.shields.io/badge/mavencentral-available-blue.svg)](https://search.maven.org/artifact/com.diffplug.gradle/image-grinder)
 [![Apache 2.0](https://img.shields.io/badge/license-apache--2.0-blue.svg)](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0))
 
-[![Changelog](https://img.shields.io/badge/changelog-2.1.3-brightgreen.svg)](CHANGELOG.md)
+[![Changelog](https://img.shields.io/badge/changelog-2.1.3-brightgreen.svg)](CHANGES.md)
 [![Javadoc](https://img.shields.io/badge/javadoc-yes-brightgreen.svg)](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.1.3/index.html)
 [![Live chat](https://img.shields.io/badge/gitter-chat-brightgreen.svg)](https://gitter.im/diffplug/image-grinder)
 [![CircleCI](https://circleci.com/gh/diffplug/image-grinder.svg?style=shield)](https://circleci.com/gh/diffplug/image-grinder)
