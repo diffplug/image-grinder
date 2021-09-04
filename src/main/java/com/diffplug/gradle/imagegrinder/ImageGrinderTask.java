@@ -16,32 +16,24 @@
 package com.diffplug.gradle.imagegrinder;
 
 
-import com.diffplug.common.collect.HashMultimap;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 import javax.inject.Inject;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.FileSystemOperations;
-import org.gradle.api.file.FileType;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
-import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.PathSensitive;
 import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.work.ChangeType;
-import org.gradle.work.FileChange;
-import org.gradle.work.Incremental;
-import org.gradle.work.InputChanges;
 import org.gradle.workers.WorkAction;
 import org.gradle.workers.WorkParameters;
 import org.gradle.workers.WorkQueue;
@@ -57,19 +49,6 @@ import org.slf4j.LoggerFactory;
  * Worker requires that all arguments to its worker runnables ({@link ImageGrinderTask}
  * in this case) be Serializable.  There's no way to serialize our {@link #grinder(Action)}, so we had
  * to use {@link SerializableRef} to sneakily pass our task to the worker.
- * 
- * ## Tedious thing #2: Removal handling
- * 
- * Tedious thing #2: .java to .class has a 1:1 mapping.  But that is not true for these images - a pipeline
- * might create two images from one source, and the number of outputs might even change based on the content
- * of the input (e.g. skip hi-res versions of very large images).
- * 
- * That means that when the user removes or changes an image, we need to remember exactly which files it
- * created last time, or else we might end up with stale results lying around.  So, this task has the
- * {@link #map} field which is a multimap from source file to the dst files it created.  When the task starts,
- * it reads this map from disk, and when the task finishes, it writes it to disk.  Whenever an {@link Img} is
- * rendered, the filename that was written is saved to this map via the {@link Img#registerDstFile(String)}
- * method.
  */
 @CacheableTask
 public abstract class ImageGrinderTask extends DefaultTask {
@@ -80,10 +59,6 @@ public abstract class ImageGrinderTask extends DefaultTask {
 		this.workerExecutor = workerExecutor;
 	}
 
-	@Internal
-	public abstract DirectoryProperty getBuildDir();
-
-	@Incremental
 	@PathSensitive(PathSensitivity.RELATIVE)
 	@InputDirectory
 	public abstract DirectoryProperty getSrcDir();
@@ -114,65 +89,19 @@ public abstract class ImageGrinderTask extends DefaultTask {
 	public abstract FileSystemOperations getFs();
 
 	@TaskAction
-	public void performAction(InputChanges inputChanges) throws Exception {
+	public void performAction() throws Exception {
 		Objects.requireNonNull(grinder, "grinder");
+		getFs().delete(deleteSpec -> deleteSpec.delete(getDstDir()));
 
-		File cache = new File(getBuildDir().getAsFile().get(), "cache" + getName());
-		if (!inputChanges.isIncremental()) {
-			getFs().delete(deleteSpec -> deleteSpec.delete(getDstDir().getAsFile().get()));
-			map = HashMultimap.create();
-		} else {
-			readFromCache(cache);
-		}
 		WorkQueue queue = workerExecutor.noIsolation();
-		for (FileChange fileChange : inputChanges.getFileChanges(getSrcDir())) {
-			if (fileChange.getFileType() == FileType.DIRECTORY) {
-				continue;
-			}
-			boolean modifiedOrRemoved = fileChange.getChangeType() == ChangeType.MODIFIED || fileChange.getChangeType() == ChangeType.REMOVED;
-			boolean modifiedOrAdded = fileChange.getChangeType() == ChangeType.MODIFIED || fileChange.getChangeType() == ChangeType.ADDED;
-			if (modifiedOrRemoved) {
-				logger.info("clean: " + fileChange.getNormalizedPath());
-				remove(fileChange.getFile());
-			}
-			if (modifiedOrAdded) {
-				logger.info("render: " + fileChange.getNormalizedPath());
-				queue.submit(RenderSvg.class, params -> {
-					params.getSourceFile().set(fileChange.getFile());
-					params.getTaskRef().set(SerializableRef.create(ImageGrinderTask.this));
-				});
-			}
-		}
-		queue.await();
-		writeToCache(cache);
-	}
-
-	private void remove(File srcFile) {
-		synchronized (map) {
-			Set<File> toDelete = map.removeAll(srcFile);
-			getFs().delete(spec -> {
-				spec.delete(toDelete.toArray());
+		getSrcDir().get().getAsFileTree().visit(fileVisit -> {
+			logger.info("render: " + fileVisit.getRelativePath());
+			queue.submit(RenderSvg.class, params -> {
+				params.getSourceFile().set(fileVisit.getFile());
+				params.getTaskRef().set(SerializableRef.create(ImageGrinderTask.this));
 			});
-		}
-	}
-
-	public boolean debug = false;
-
-	HashMultimap<File, File> map;
-
-	@SuppressWarnings("unchecked")
-	private void readFromCache(File file) {
-		if (file.exists()) {
-			map = SerializableMisc.fromFile(HashMultimap.class, file);
-		} else {
-			map = HashMultimap.create();
-		}
-	}
-
-	private void writeToCache(File file) {
-		synchronized (map) {
-			SerializableMisc.toFile(map, file);
-		}
+		});
+		queue.await();
 	}
 
 	public interface RenderSvgParams extends WorkParameters {

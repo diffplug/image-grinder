@@ -117,35 +117,4 @@ public class ImageGrinderPluginTest extends GradleHarness {
 		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.UP_TO_DATE);
 	}
-
-	@Test
-	public void testIncremental() throws Exception {
-		writeBuild();
-
-		// one file
-		write("src/refresh.svg", readTestResource("refresh.svg"));
-		runAndAssert(TaskOutcome.SUCCESS).containsExactly("render: refresh.svg");
-		assertFolderContent("dst").containsExactly("refresh.png", "refresh@2x.png");
-
-		// add a file, and only it changes
-		write("src/diffpluglogo.svg", readTestResource("diffpluglogo.svg"));
-		runAndAssert(TaskOutcome.SUCCESS).containsExactly("render: diffpluglogo.svg");
-		assertFolderContent("dst").containsExactly("diffpluglogo.png", "diffpluglogo@2x.png", "refresh.png", "refresh@2x.png");
-
-		// remove a file, and only it is removed
-		delete("src/refresh.svg");
-		runAndAssert(TaskOutcome.SUCCESS).containsExactly("clean: refresh.svg");
-		assertFolderContent("dst").containsExactly("diffpluglogo.png", "diffpluglogo@2x.png");
-
-		// remove another file, and we end up with an empty directory
-		delete("src/diffpluglogo.svg");
-		runAndAssert(TaskOutcome.SUCCESS).containsExactly("clean: diffpluglogo.svg");
-		assertFolderContent("dst").isEmpty();
-
-		// add them both, and they're both rendered
-		write("src/refresh.svg", readTestResource("refresh.svg"));
-		write("src/diffpluglogo.svg", readTestResource("diffpluglogo.svg"));
-		runAndAssert(TaskOutcome.SUCCESS).containsExactlyInAnyOrder("render: refresh.svg", "render: diffpluglogo.svg");
-		assertFolderContent("dst").containsExactly("diffpluglogo.png", "diffpluglogo@2x.png", "refresh.png", "refresh@2x.png");
-	}
 }

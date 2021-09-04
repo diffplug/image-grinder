@@ -1,8 +1,10 @@
 # ImageGrinder
 
 ## [Unreleased]
+### Fixed
+- Now supports the Gradle Configuration Cache, but we had to lose support for incremental build ([#9](https://github.com/diffplug/image-grinder/pull/9)).
 
-## [2.2.0] - 2021-09-04
+## [2.2.0] - 2021-09-04 [YANKED]
 ### Added
 - Now supports the Gradle Configuration Cache ([#8](https://github.com/diffplug/image-grinder/pull/8)).
   - This required bumping our minimum required Gradle from `5.6` to `6.0`.

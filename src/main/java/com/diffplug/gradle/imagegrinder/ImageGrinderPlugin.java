@@ -33,7 +33,6 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 			@Override
 			public ImageGrinderTask create(String name) {
 				ImageGrinderTask task = project.getTasks().create(name, ImageGrinderTask.class);
-				task.getBuildDir().set(project.getBuildDir());
 				if (name.startsWith("process")) {
 					Task processResources = project.getTasks().getByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME);
 					processResources.dependsOn(task);

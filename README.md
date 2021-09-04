@@ -49,7 +49,8 @@ imageGrinder {
 
 Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.2.0/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
 
-ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/6.0/userguide/custom_tasks.html#worker_api) introduced in Gradle 5.6 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/6.0/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required. And if you're using the [configuration cache](https://docs.gradle.org/6.6/userguide/configuration_cache.html) introduced in Gradle 6.6, that'll work too for near-instant startup times.
+ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/6.6/userguide/custom_tasks.html#worker_api) to use all your CPU cores for grinding, the [buildcache](https://docs.gradle.org/6.6/userguide/build_cache.html) to minimize the necessary work, and it also supports the [configuration cache](https://docs.gradle.org/6.6/userguide/configuration_cache.html) for near-instant startup times. It does not currently support [incremental update](https://docs.gradle.org/6.0/userguide/custom_tasks.html#incremental_tasks), but if you go back to `2.1.3` you can get that back in return for losing the configuration cache (see [#9](https://github.com/diffplug/image-grinder/pull/9) for details).
+
 
 ## Configuration avoidance
 
