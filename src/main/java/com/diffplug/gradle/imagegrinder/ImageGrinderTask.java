@@ -95,6 +95,9 @@ public abstract class ImageGrinderTask extends DefaultTask {
 
 		WorkQueue queue = workerExecutor.noIsolation();
 		getSrcDir().get().getAsFileTree().visit(fileVisit -> {
+			if (fileVisit.isDirectory()) {
+				return;
+			}
 			logger.info("render: " + fileVisit.getRelativePath());
 			queue.submit(RenderSvg.class, params -> {
 				params.getSourceFile().set(fileVisit.getFile());

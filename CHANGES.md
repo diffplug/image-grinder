@@ -1,6 +1,8 @@
 # ImageGrinder
 
 ## [Unreleased]
+### Fixed
+- Skip directories (DOH!).
 
 ## [2.2.1] - 2021-09-04
 ### Fixed
