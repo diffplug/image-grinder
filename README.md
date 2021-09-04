@@ -16,8 +16,8 @@ output = [
 [![Maven central](https://img.shields.io/badge/mavencentral-available-blue.svg)](https://search.maven.org/artifact/com.diffplug.gradle/image-grinder)
 [![Apache 2.0](https://img.shields.io/badge/license-apache--2.0-blue.svg)](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0))
 
-[![Changelog](https://img.shields.io/badge/changelog-2.1.3-brightgreen.svg)](CHANGES.md)
-[![Javadoc](https://img.shields.io/badge/javadoc-yes-brightgreen.svg)](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.1.3/index.html)
+[![Changelog](https://img.shields.io/badge/changelog-2.2.0-brightgreen.svg)](CHANGES.md)
+[![Javadoc](https://img.shields.io/badge/javadoc-yes-brightgreen.svg)](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.2.0/index.html)
 [![Live chat](https://img.shields.io/badge/gitter-chat-brightgreen.svg)](https://gitter.im/diffplug/image-grinder)
 [![CircleCI](https://circleci.com/gh/diffplug/image-grinder.svg?style=shield)](https://circleci.com/gh/diffplug/image-grinder)
 <!---freshmark /shields -->
@@ -47,7 +47,7 @@ imageGrinder {
 }
 ```
 
-Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.1.3/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
+Every single file in `srcDir` needs to be an image that ImageGrinder can parse.  Each image will be parsed, and wrapped into an [`Img`](https://javadoc.io/doc/com.diffplug.gradle/image-grinder/2.2.0/com/diffplug/gradle/imagegrinder/Img.html). Call its methods to grind it into whatever you need in the `dstDir`.
 
 ImageGrinder uses the gradle [Worker API](https://docs.gradle.org/6.0/userguide/custom_tasks.html#worker_api) introduced in Gradle 5.6 to use all your CPU cores for grinding.  It also uses gradle's [incremental task](https://docs.gradle.org/6.0/userguide/custom_tasks.html#incremental_tasks) support to do the minimum amount of grinding required. And if you're using the [configuration cache](https://docs.gradle.org/6.6/userguide/configuration_cache.html) introduced in Gradle 6.6, that'll work too for near-instant startup times.
 
