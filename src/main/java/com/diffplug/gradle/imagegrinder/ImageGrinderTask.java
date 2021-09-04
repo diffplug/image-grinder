@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 DiffPlug
+ * Copyright (C) 2020-2021 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,19 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 import javax.inject.Inject;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.file.FileSystemOperations;
 import org.gradle.api.file.FileType;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.PathSensitive;
 import org.gradle.api.tasks.PathSensitivity;
@@ -77,6 +80,9 @@ public abstract class ImageGrinderTask extends DefaultTask {
 		this.workerExecutor = workerExecutor;
 	}
 
+	@Internal
+	public abstract DirectoryProperty getBuildDir();
+
 	@Incremental
 	@PathSensitive(PathSensitivity.RELATIVE)
 	@InputDirectory
@@ -104,13 +110,16 @@ public abstract class ImageGrinderTask extends DefaultTask {
 		this.grinder = grinder;
 	}
 
+	@Inject
+	public abstract FileSystemOperations getFs();
+
 	@TaskAction
 	public void performAction(InputChanges inputChanges) throws Exception {
 		Objects.requireNonNull(grinder, "grinder");
 
-		File cache = new File(getProject().getBuildDir(), "cache" + getName());
+		File cache = new File(getBuildDir().getAsFile().get(), "cache" + getName());
 		if (!inputChanges.isIncremental()) {
-			getProject().delete(getDstDir().getAsFile().get());
+			getFs().delete(deleteSpec -> deleteSpec.delete(getDstDir().getAsFile().get()));
 			map = HashMultimap.create();
 		} else {
 			readFromCache(cache);
@@ -140,7 +149,10 @@ public abstract class ImageGrinderTask extends DefaultTask {
 
 	private void remove(File srcFile) {
 		synchronized (map) {
-			map.removeAll(srcFile).forEach(getProject()::delete);
+			Set<File> toDelete = map.removeAll(srcFile);
+			getFs().delete(spec -> {
+				spec.delete(toDelete.toArray());
+			});
 		}
 	}
 

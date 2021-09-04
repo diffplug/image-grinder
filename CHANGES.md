@@ -1,6 +1,9 @@
 # ImageGrinder
 
 ## [Unreleased]
+### Added
+- Now supports the Gradle Configuration Cache ([#8](https://github.com/diffplug/image-grinder/pull/8)).
+  - This required bumping our minimum required Gradle from `5.6` to `6.0`.
 
 ## [2.1.3] - 2021-06-12
 ### Fixed

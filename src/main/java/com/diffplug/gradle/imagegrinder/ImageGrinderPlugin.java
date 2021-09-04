@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 DiffPlug
+ * Copyright (C) 2020-2021 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 			@Override
 			public ImageGrinderTask create(String name) {
 				ImageGrinderTask task = project.getTasks().create(name, ImageGrinderTask.class);
+				task.getBuildDir().set(project.getBuildDir());
 				if (name.startsWith("process")) {
 					Task processResources = project.getTasks().getByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME);
 					processResources.dependsOn(task);

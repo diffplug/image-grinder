@@ -82,6 +82,15 @@ public class ImageGrinderPluginTest extends GradleHarness {
 	}
 
 	@Test
+	public void testOnceConfigurationCache() throws Exception {
+		writeBuild();
+		write("src/refresh.svg", readTestResource("refresh.svg"));
+		gradleRunner().withGradleVersion("6.6").withArguments("--configuration-cache", "eclipseSvg").build();
+		ParsedSVGTest.assertEqual(file("dst/refresh.png"), "refresh16.png");
+		ParsedSVGTest.assertEqual(file("dst/refresh@2x.png"), "refresh32.png");
+	}
+
+	@Test
 	public void testUpToDate() throws Exception {
 		writeBuild();
 		write("src/refresh.svg", readTestResource("refresh.svg"));
