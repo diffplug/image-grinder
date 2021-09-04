@@ -18,7 +18,10 @@ package com.diffplug.gradle.imagegrinder;
 
 import com.diffplug.common.collect.HashMultimap;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
@@ -33,6 +36,7 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
+import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.PathSensitive;
@@ -80,8 +84,11 @@ public abstract class ImageGrinderTask extends DefaultTask {
 		this.workerExecutor = workerExecutor;
 	}
 
+	@InputFile
+	public abstract RegularFileProperty getMappingFileIn();
+
 	@OutputFile
-	public abstract RegularFileProperty getCacheFile();
+	public abstract RegularFileProperty getMappingFileOut();
 
 	@Incremental
 	@PathSensitive(PathSensitivity.RELATIVE)
@@ -118,10 +125,10 @@ public abstract class ImageGrinderTask extends DefaultTask {
 		Objects.requireNonNull(grinder, "grinder");
 
 		if (!inputChanges.isIncremental()) {
-			getFs().delete(deleteSpec -> deleteSpec.delete(getCacheFile()));
+			getFs().delete(deleteSpec -> deleteSpec.delete(getMappingFileIn()));
 			map = HashMultimap.create();
 		} else {
-			readFromCache();
+			readMappingIn();
 		}
 		WorkQueue queue = workerExecutor.noIsolation();
 		for (FileChange fileChange : inputChanges.getFileChanges(getSrcDir())) {
@@ -143,7 +150,7 @@ public abstract class ImageGrinderTask extends DefaultTask {
 			}
 		}
 		queue.await();
-		writeToCache();
+		writeMappingOut();
 	}
 
 	private void remove(File srcFile) {
@@ -160,8 +167,8 @@ public abstract class ImageGrinderTask extends DefaultTask {
 	HashMultimap<File, File> map;
 
 	@SuppressWarnings("unchecked")
-	private void readFromCache() {
-		File cacheFile = getCacheFile().getAsFile().get();
+	private void readMappingIn() {
+		File cacheFile = getMappingFileIn().getAsFile().get();
 		if (cacheFile.exists()) {
 			map = SerializableMisc.fromFile(HashMultimap.class, cacheFile);
 		} else {
@@ -169,9 +176,12 @@ public abstract class ImageGrinderTask extends DefaultTask {
 		}
 	}
 
-	private void writeToCache() {
+	private void writeMappingOut() throws IOException {
 		synchronized (map) {
-			SerializableMisc.toFile(map, getCacheFile().getAsFile().get());
+			File out = getMappingFileOut().getAsFile().get();
+			File in = getMappingFileIn().getAsFile().get();
+			SerializableMisc.toFile(map, out);
+			Files.copy(out.toPath(), in.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 

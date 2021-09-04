@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 DiffPlug
+ * Copyright (C) 2020-2021 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,11 +46,13 @@ public class ImageGrinderPluginSizeDependentTest extends GradleHarness {
 		// this image is 16x16, so it should be rendered with HiDPI
 		write("src/refresh.svg", readTestResource("refresh.svg"));
 		runAndAssert(TaskOutcome.SUCCESS);
+		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.UP_TO_DATE);
 		assertFolderContent("dst").containsExactly("refresh.png", "refresh@2x.png");
 
 		// this image is large, so it should only have a 1x rendering
 		write("src/refresh.svg", readTestResource("refresh-large.svg"));
+		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.UP_TO_DATE);
 		assertFolderContent("dst").containsExactly("refresh.png");
