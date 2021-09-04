@@ -92,14 +92,12 @@ public class ImageGrinderPluginTest extends GradleHarness {
 
 	@Test
 	public void testUpToDate() throws Exception {
-		// changing topology of files requires two builds before converging on up-to-date
 		writeBuild();
 		write("src/refresh.svg", readTestResource("refresh.svg"));
 		runAndAssert(TaskOutcome.SUCCESS);
-		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.UP_TO_DATE);
 
-		// modifying the content of an existing file allows single-run up-to-date
+		// if we change the file, it runs again
 		write("src/refresh.svg", readTestResource("diffpluglogo.svg"));
 		runAndAssert(TaskOutcome.SUCCESS);
 		runAndAssert(TaskOutcome.UP_TO_DATE);
@@ -129,19 +127,19 @@ public class ImageGrinderPluginTest extends GradleHarness {
 		runAndAssert(TaskOutcome.SUCCESS).containsExactly("render: refresh.svg");
 		assertFolderContent("dst").containsExactly("refresh.png", "refresh@2x.png");
 
-		// if a file is added, we have to redo everything because the mapping changed
+		// add a file, and only it changes
 		write("src/diffpluglogo.svg", readTestResource("diffpluglogo.svg"));
-		runAndAssert(TaskOutcome.SUCCESS).containsExactly("render: refresh.svg", "render: diffpluglogo.svg");
+		runAndAssert(TaskOutcome.SUCCESS).containsExactly("render: diffpluglogo.svg");
 		assertFolderContent("dst").containsExactly("diffpluglogo.png", "diffpluglogo@2x.png", "refresh.png", "refresh@2x.png");
 
-		// if a file is removed, we have to redo everything because the mapping changed
+		// remove a file, and only it is removed
 		delete("src/refresh.svg");
-		runAndAssert(TaskOutcome.SUCCESS).containsExactly("render: diffpluglogo.svg");
+		runAndAssert(TaskOutcome.SUCCESS).containsExactly("clean: refresh.svg");
 		assertFolderContent("dst").containsExactly("diffpluglogo.png", "diffpluglogo@2x.png");
 
 		// remove another file, and we end up with an empty directory
 		delete("src/diffpluglogo.svg");
-		runAndAssert(TaskOutcome.SUCCESS).containsExactly();
+		runAndAssert(TaskOutcome.SUCCESS).containsExactly("clean: diffpluglogo.svg");
 		assertFolderContent("dst").isEmpty();
 
 		// add them both, and they're both rendered
@@ -149,15 +147,5 @@ public class ImageGrinderPluginTest extends GradleHarness {
 		write("src/diffpluglogo.svg", readTestResource("diffpluglogo.svg"));
 		runAndAssert(TaskOutcome.SUCCESS).containsExactlyInAnyOrder("render: refresh.svg", "render: diffpluglogo.svg");
 		assertFolderContent("dst").containsExactly("diffpluglogo.png", "diffpluglogo@2x.png", "refresh.png", "refresh@2x.png");
-
-		// with no changes, we still get one rerender because the mapping changed
-		runAndAssert(TaskOutcome.SUCCESS).containsExactlyInAnyOrder("render: refresh.svg", "render: diffpluglogo.svg");
-		// but after that it's up-to-date
-		runAndAssert(TaskOutcome.UP_TO_DATE).containsExactlyInAnyOrder();
-
-		// and if we change just a single file, then we finally get the advantage of incremental build
-		write("src/refresh.svg", readTestResource("diffpluglogo.svg"));
-		runAndAssert(TaskOutcome.SUCCESS).containsExactlyInAnyOrder("clean: refresh.svg", "render: refresh.svg");
-		runAndAssert(TaskOutcome.UP_TO_DATE).containsExactlyInAnyOrder();
 	}
 }
