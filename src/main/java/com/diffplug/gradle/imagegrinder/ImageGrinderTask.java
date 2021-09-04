@@ -33,8 +33,8 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
-import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.PathSensitive;
 import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
@@ -80,8 +80,8 @@ public abstract class ImageGrinderTask extends DefaultTask {
 		this.workerExecutor = workerExecutor;
 	}
 
-	@Internal
-	public abstract DirectoryProperty getBuildDir();
+	@OutputFile
+	public abstract RegularFileProperty getCacheFile();
 
 	@Incremental
 	@PathSensitive(PathSensitivity.RELATIVE)
@@ -117,12 +117,11 @@ public abstract class ImageGrinderTask extends DefaultTask {
 	public void performAction(InputChanges inputChanges) throws Exception {
 		Objects.requireNonNull(grinder, "grinder");
 
-		File cache = new File(getBuildDir().getAsFile().get(), "cache" + getName());
 		if (!inputChanges.isIncremental()) {
-			getFs().delete(deleteSpec -> deleteSpec.delete(getDstDir().getAsFile().get()));
+			getFs().delete(deleteSpec -> deleteSpec.delete(getCacheFile()));
 			map = HashMultimap.create();
 		} else {
-			readFromCache(cache);
+			readFromCache();
 		}
 		WorkQueue queue = workerExecutor.noIsolation();
 		for (FileChange fileChange : inputChanges.getFileChanges(getSrcDir())) {
@@ -144,7 +143,7 @@ public abstract class ImageGrinderTask extends DefaultTask {
 			}
 		}
 		queue.await();
-		writeToCache(cache);
+		writeToCache();
 	}
 
 	private void remove(File srcFile) {
@@ -161,17 +160,18 @@ public abstract class ImageGrinderTask extends DefaultTask {
 	HashMultimap<File, File> map;
 
 	@SuppressWarnings("unchecked")
-	private void readFromCache(File file) {
-		if (file.exists()) {
-			map = SerializableMisc.fromFile(HashMultimap.class, file);
+	private void readFromCache() {
+		File cacheFile = getCacheFile().getAsFile().get();
+		if (cacheFile.exists()) {
+			map = SerializableMisc.fromFile(HashMultimap.class, cacheFile);
 		} else {
 			map = HashMultimap.create();
 		}
 	}
 
-	private void writeToCache(File file) {
+	private void writeToCache() {
 		synchronized (map) {
-			SerializableMisc.toFile(map, file);
+			SerializableMisc.toFile(map, getCacheFile().getAsFile().get());
 		}
 	}
 

@@ -16,6 +16,7 @@
 package com.diffplug.gradle.imagegrinder;
 
 
+import java.io.File;
 import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -33,7 +34,7 @@ public class ImageGrinderPlugin implements Plugin<Project> {
 			@Override
 			public ImageGrinderTask create(String name) {
 				ImageGrinderTask task = project.getTasks().create(name, ImageGrinderTask.class);
-				task.getBuildDir().set(project.getBuildDir());
+				task.getCacheFile().set(new File(project.getBuildDir(), "cache" + name));
 				if (name.startsWith("process")) {
 					Task processResources = project.getTasks().getByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME);
 					processResources.dependsOn(task);
