@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 DiffPlug
+ * Copyright (C) 2020-2021 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import org.gradle.testkit.runner.TaskOutcome;
 public class GradleHarness extends ResourceHarness {
 	/** A gradleRunner(). */
 	protected GradleRunner gradleRunner() throws IOException {
-		return GradleRunner.create().withGradleVersion("5.6").withProjectDir(rootFolder()).withPluginClasspath();
+		return GradleRunner.create().withGradleVersion("6.0").withProjectDir(rootFolder()).withPluginClasspath();
 	}
 
 	/** Runs the eclipseSvg task and asserts that the given result is applied to the given files. */
