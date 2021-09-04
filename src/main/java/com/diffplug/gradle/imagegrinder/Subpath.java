@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 DiffPlug
+ * Copyright (C) 2020-2021 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,17 +18,34 @@ package com.diffplug.gradle.imagegrinder;
 
 import com.diffplug.common.base.Preconditions;
 import java.io.File;
+import org.gradle.api.file.FileSystemLocationProperty;
 
 public class Subpath {
 	private final String full;
 	private final String extension;
 	private final String withoutExtension;
 
+	public static Subpath from(FileSystemLocationProperty<?> root, FileSystemLocationProperty<?> child) {
+		return from(root.getAsFile().get(), child.getAsFile().get());
+	}
+
+	public static Subpath from(FileSystemLocationProperty<?> root, File child) {
+		return from(root.getAsFile().get(), child);
+	}
+
 	public static Subpath from(File root, File child) {
 		String rootPath = root.getAbsolutePath().replace('\\', '/') + '/';
 		String childPath = child.getAbsolutePath().replace('\\', '/');
 		Preconditions.checkArgument(childPath.startsWith(rootPath), "%s needs to start with %s", childPath, rootPath);
 		return new Subpath(childPath.substring(rootPath.length()));
+	}
+
+	public File resolve(File root) {
+		return new File(root, full);
+	}
+
+	public File resolve(FileSystemLocationProperty<?> root) {
+		return resolve(root.getAsFile().get());
 	}
 
 	public String full() {
@@ -61,5 +78,22 @@ public class Subpath {
 		Preconditions.checkArgument(idx >= 0, "'%s' must contain a '.'", subpath);
 		Preconditions.checkArgument(idx < subpath.length() - 1, "'%s' can't end in '.'", subpath);
 		return subpath.substring(idx + 1);
+	}
+
+	@Override
+	public int hashCode() {
+		return full.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == this) {
+			return true;
+		} else if (other instanceof Subpath) {
+			Subpath sub = (Subpath) other;
+			return sub.full.equals(full);
+		} else {
+			return false;
+		}
 	}
 }
