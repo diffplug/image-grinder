@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 DiffPlug
+ * Copyright (C) 2020-2021 DiffPlug
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,9 +83,10 @@ public abstract class Img<T extends Size.Has> implements Size.Has {
 	File registerDstFile(String fullPath) {
 		File file = new File(task.getDstDir().getAsFile().get(), fullPath);
 		FileMisc.mkdirs(file.getParentFile());
-		synchronized (task.map) {
-			task.map.put(new File(task.getSrcDir().getAsFile().get(), subpath.full()), file);
-		}
+		// TODO: useful for incremental build in the future, perhaps
+		//		synchronized (task.map) {
+		//			task.map.put(new File(task.getSrcDir().getAsFile().get(), subpath.full()), file);
+		//		}
 		return file;
 	}
 
