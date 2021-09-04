@@ -45,7 +45,7 @@ public class ImageGrinderPluginTest extends GradleHarness {
 		BuildResult result = gradleRunner().withArguments("eclipseSvg", "--warning-mode", "all").build();
 		System.out.println(result.getOutput().replace("\r", ""));
 		Assertions.assertThat(result.getOutput().replace("\r", ""))
-				.contains("The com.diffplug.gradle.image-grinder plugin has been deprecated. This is scheduled to be removed in Gradle 6.0. Please use the com.diffplug.image-grinder plugin instead.");
+				.contains("Plugin 'com.diffplug.gradle.image-grinder' has been replaced by 'com.diffplug.image-grinder'");
 		ParsedSVGTest.assertEqual(file("dst/refresh@2x.png"), "refresh32.png");
 	}
 
